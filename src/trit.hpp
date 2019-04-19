@@ -22,12 +22,17 @@ struct Trit
 
     public:
         Trit();
+        Trit(const char c);
         Trit(const TritVal& t);
         Trit(const Trit& that);
         ~Trit() {} 
 
         // arithmetic operators
         Trit operator&(const Trit& t) const;
+        Trit operator|(const Trit& t) const;
+
+        // equality operators
+        bool operator==(const Trit& t) const;
         
         // assignment operators
         //Trit& operator=(const int val);
