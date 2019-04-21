@@ -6,12 +6,15 @@
  */
 
 #include <sstream>
+#include <iostream>
 #include <iomanip>
+#include <cstdint>
 #include "tryte.hpp"
 
 namespace iii
 {
 
+// ctors 
 Tryte::Tryte()
 {
     for(int t = 0; t < 9; ++t)
@@ -19,11 +22,110 @@ Tryte::Tryte()
     this->carry = iii::TR_UNK;
 }
 
+Tryte::Tryte(const int v)
+{
+    if(v == 0)
+    {
+        for(int i = 0; i < 9; ++i)
+            this->trits[i] = 0;
+        this->carry = iii::TR_UNK;
+    }
+    else
+    {
+        // deal with carry
+        if(v > (iii::pow3_lut[8] / 2))
+            this->carry = iii::TR_TRUE;
+        else if(v < (-iii::pow3_lut[8] / 2))
+            this->carry = iii::TR_FALSE;
+        else
+            this->carry = iii::TR_UNK;
+
+        int value = v;
+        int tidx = 0;
+        int cur_t = 0;
+
+        while(value > 0)
+        {
+            cur_t = value % 3;
+            switch(cur_t)
+            {
+                case 0:
+                    this->trits[tidx] = iii::TR_FALSE;
+                    break;
+                case 1:
+                    this->trits[tidx] = iii::TR_UNK;
+                    break;
+                case 2:
+                    this->trits[tidx] = iii::TR_TRUE;
+            }
+            std::cout << "[" << __func__ << "] cur_t : " << cur_t << std::endl;
+            value = value / 3;
+            tidx++;
+        }
+    }
+}
+
+// copy ctor
 Tryte::Tryte(const Tryte& that)
 {
     for(int t = 0; t < 9; ++t)
         this->trits[t] = that.trits[t];
     this->carry = that.carry;
+}
+
+
+// assignment operators 
+Tryte& Tryte::operator=(const int v)
+{
+
+}
+
+Tryte& Tryte::operator=(const Tryte& t)
+{
+    for(int i = 0; i < 9; ++i)
+        this->trits[i] = t[i];
+    this->carry = t.getCarry();
+    return *this;
+}
+
+
+// Logic operators 
+Trit Tryte::operator==(const Tryte& t) const
+{
+    for(int i = 0; i < 9; ++i)
+    {
+        if(this->trits[i] != t.trits[i])
+            return Trit(iii::TR_FALSE);
+    }
+
+    return Trit(iii::TR_TRUE);
+}
+
+Trit Tryte::operator!=(const Tryte& t) const
+{
+    for(int i = 0; i < 9; ++i)
+    {
+        if(this->trits[i] != t.trits[i])
+            return Trit(iii::TR_TRUE);
+    }
+
+    return Trit(iii::TR_FALSE);
+}
+
+// Arithmetic operators
+
+
+// getters 
+Trit Tryte::getCarry(void) const
+{
+    return this->carry;
+}
+
+
+// setters  
+void Tryte::setTrit(const int trit, const Trit& t)
+{
+    this->trits[trit] = t;
 }
 
 
@@ -38,11 +140,12 @@ Trit& Tryte::operator[](const int i)
     return this->trits[i];
 }
 
+// type conversions
 int Tryte::toInt(void)
 {
     int tryte_val = 0;
     for(int t = 0; t < 9; ++t)
-        tryte_val += this->trits[t].toInt();
+        tryte_val += (this->trits[t].toInt() * iii::pow3_lut[t]);
     return tryte_val;
 }
 
@@ -50,7 +153,7 @@ int Tryte::nonaryhex(void)
 {
     int shift_dist = 0;
     int rval = 0;
-    for(int t = 0; t < 9; t+=2)
+    for(int t = 9; t > 0; t-=2)
     {
         char tchar = (*this)[t+1].toInt() + (this)[t].toInt() * 3;
         switch(tchar)

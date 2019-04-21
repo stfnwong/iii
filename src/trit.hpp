@@ -44,7 +44,6 @@ struct Trit
         //Trit& operator=(const int val);
         Trit& operator=(const TritVal& t);
         Trit& operator=(const Trit& t);
-        // TODO : shift left, right
 
         // logic functions - these don't have a valid c++ operator associated with them
         Trit cons(const Trit& t);
@@ -52,7 +51,6 @@ struct Trit
 
         // intify
         int toInt(void) const;
-
         // stringify
         std::string toString(void);
 };
