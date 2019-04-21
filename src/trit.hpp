@@ -30,15 +30,28 @@ struct Trit
         // arithmetic operators
         Trit operator&(const Trit& t) const;
         Trit operator|(const Trit& t) const;
+        Trit operator^(const Trit& t) const;
+
+        // in-place operators (TODO)
+        Trit& operator|=(const Trit& t);
+        Trit& operator&=(const Trit& t);
 
         // equality operators
         bool operator==(const Trit& t) const;
+        bool operator!=(const Trit& t) const;
         
         // assignment operators
         //Trit& operator=(const int val);
         Trit& operator=(const TritVal& t);
         Trit& operator=(const Trit& t);
+        // TODO : shift left, right
 
+        // logic functions - these don't have a valid c++ operator associated with them
+        Trit cons(const Trit& t);
+        Trit accept(const Trit& t);
+
+        // intify
+        int toInt(void) const;
 
         // stringify
         std::string toString(void);

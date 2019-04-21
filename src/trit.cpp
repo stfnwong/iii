@@ -67,6 +67,13 @@ Trit Trit::operator&(const Trit& t) const
     return Trit(iii::TR_UNK);
 }
 
+// TODO : inline operator needs testing
+Trit& Trit::operator&=(const Trit& t)
+{
+    this->value = (*this & t).value;
+    return *this;
+}
+
 /* 
  * OR (Max)
  * Truth table :
@@ -91,12 +98,51 @@ Trit Trit::operator|(const Trit& t) const
     return Trit(iii::TR_FALSE);
 }
 
+// TODO : inline operator needs testing
+Trit& Trit::operator|=(const Trit& t)
+{
+    this->value = (*this | t).value;
+    return *this;
+}
+
+
+/* 
+ * XOR 
+ * Truth table :
+ * A | B | Y = A ^ B
+ * + | + | -
+ * 0 | + | 0
+ * - | + | +
+ * + | 0 | 0
+ * 0 | 0 | 0
+ * - | 0 | 0
+ * + | - | +
+ * 0 | - | 0
+ * - | - | -
+ *
+ */
+Trit Trit::operator^(const Trit& t) const
+{
+    if(this->value == iii::TR_UNK || t.value == iii::TR_UNK)
+        return Trit(iii::TR_UNK);
+    if(this->value == t.value)
+        return Trit(iii::TR_FALSE);
+    return Trit(iii::TR_TRUE);
+}
+
 // equality operators 
 bool Trit::operator==(const Trit& t) const
 {
     if(this->value == t.value)
         return true;
     return false;
+}
+
+bool Trit::operator!=(const Trit& t) const
+{
+    if(this->value == t.value)
+        return false;
+    return true;
 }
 
 // assignment operators 
@@ -112,7 +158,68 @@ Trit& Trit::operator=(const Trit& t)
     return *this;
 }
 
+// consensus
+/* 
+ * CONS 
+ * Truth table :
+ * A | B | Y = A (cons) B
+ * + | + | +
+ * 0 | + | 0
+ * - | + | 0
+ * + | 0 | 0
+ * 0 | 0 | 0
+ * - | 0 | 0
+ * + | - | 0
+ * 0 | - | 0
+ * - | - | -
+ *
+ */
+Trit Trit::cons(const Trit& t)
+{
+    if(this->value == iii::TR_TRUE && t.value == iii::TR_TRUE)
+        return Trit(iii::TR_TRUE);
+    if(this->value == iii::TR_FALSE && t.value == iii::TR_FALSE)
+        return Trit(iii::TR_FALSE);
 
+    return Trit(iii::TR_UNK);
+}
+
+// any/accept 
+/* 
+ * ANY 
+ * Truth table :
+ * A | B | Y = A (any) B
+ * + | + | +
+ * 0 | + | +
+ * - | + | 0
+ * + | 0 | +
+ * 0 | 0 | 0
+ * - | 0 | -
+ * + | - | 0
+ * 0 | - | -
+ * - | - | -
+ *
+ */
+Trit Trit::accept(const Trit& t)
+{
+    if((this->value == iii::TR_TRUE && t.value == iii::TR_FALSE) ||
+       (this->value == iii::TR_FALSE && t.value == iii::TR_TRUE))
+        return Trit(iii::TR_UNK);
+    if(this->value == iii::TR_TRUE || t.value == iii::TR_TRUE)
+        return Trit(iii::TR_TRUE);
+    if(this->value == iii::TR_FALSE || t.value == iii::TR_FALSE)
+        return Trit(iii::TR_FALSE);
+    
+    return Trit(iii::TR_UNK);
+}
+
+// intify
+int Trit::toInt(void) const
+{
+    return (int) this->value;
+}
+
+// stringify
 std::string Trit::toString(void) 
 {
    std::string s(1, tritval_str[this->value+2]);

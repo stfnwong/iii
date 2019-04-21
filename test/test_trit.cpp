@@ -84,11 +84,10 @@ TEST_F(TestTrit, test_or)
         iii::Trit('-'), iii::Trit('-'), iii::Trit('-')
     };
 
-    // TODO : update 
     std::vector<iii::Trit> expected_y_trits = {
-        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
-        iii::Trit('0'), iii::Trit('0'), iii::Trit('-'), 
-        iii::Trit('-'), iii::Trit('-'), iii::Trit('-')
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('+'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-')
     };
 
     std::vector<iii::Trit> output_y_trits;
@@ -98,7 +97,43 @@ TEST_F(TestTrit, test_or)
     std::cout << "A | B | Y = A | B" << std::endl;
     for(unsigned int t = 0; t < a_trits.size(); ++t)
     {
-        y_trit = a_trits[t] & b_trits[t];
+        y_trit = a_trits[t] | b_trits[t];
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << a_trits[t].toString() << " | " 
+                  << b_trits[t].toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+TEST_F(TestTrit, test_xor)
+{
+    std::vector<iii::Trit> a_trits = {
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> b_trits = {
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('+'), 
+        iii::Trit('0'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('-'), iii::Trit('-'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('-'), iii::Trit('0'), iii::Trit('+'), 
+        iii::Trit('0'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> output_y_trits;
+
+    iii::Trit y_trit;
+    std::cout << "OR  operator test" << std::endl;
+    std::cout << "A | B | Y = A ^ B" << std::endl;
+    for(unsigned int t = 0; t < a_trits.size(); ++t)
+    {
+        y_trit = a_trits[t] ^ b_trits[t];
         ASSERT_EQ(expected_y_trits[t], y_trit);
         std::cout << a_trits[t].toString() << " | " 
                   << b_trits[t].toString() << " | " 
@@ -108,9 +143,80 @@ TEST_F(TestTrit, test_or)
 }
 
 
+TEST_F(TestTrit, test_cons)
+{
+    std::vector<iii::Trit> a_trits = {
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> b_trits = {
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('+'), 
+        iii::Trit('0'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('-'), iii::Trit('-'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('0'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('0'), iii::Trit('0'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> output_y_trits;
+
+    iii::Trit y_trit;
+    std::cout << "CONS  operator test" << std::endl;
+    std::cout << "A | B | Y = A (cons) B" << std::endl;
+    for(unsigned int t = 0; t < a_trits.size(); ++t)
+    {
+        y_trit = a_trits[t].cons(b_trits[t]);
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << a_trits[t].toString() << " | " 
+                  << b_trits[t].toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+TEST_F(TestTrit, test_accept)
+{
+    std::vector<iii::Trit> a_trits = {
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> b_trits = {
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('+'), 
+        iii::Trit('0'), iii::Trit('0'), iii::Trit('0'), 
+        iii::Trit('-'), iii::Trit('-'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('0'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('0'), iii::Trit('-'), iii::Trit('-')
+    };
+
+    std::vector<iii::Trit> output_y_trits;
+
+    iii::Trit y_trit;
+    std::cout << "ACCEPT  operator test" << std::endl;
+    std::cout << "A | B | Y = A (accept) B" << std::endl;
+    for(unsigned int t = 0; t < a_trits.size(); ++t)
+    {
+        y_trit = a_trits[t].accept(b_trits[t]);
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << a_trits[t].toString() << " | " 
+                  << b_trits[t].toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
