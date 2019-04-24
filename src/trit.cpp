@@ -16,7 +16,8 @@ const char* tritval_str = "U-0+";
 // --- constructors ---- //
 Trit::Trit()
 {
-    this->value = iii::TR_UNK;
+    //this->value = iii::TR_UNK;
+    this->value = iii::TR_FALSE;
 }
 
 Trit::Trit(const char c)
@@ -28,7 +29,7 @@ Trit::Trit(const char c)
     else if(c == '+')
         this->value = iii::TR_TRUE;
     else
-        this->value = iii::TR_INVALID;
+        this->value = iii::TR_FALSE;
 }
 
 Trit::Trit(const TritVal& t)
@@ -192,6 +193,26 @@ Trit& Trit::operator=(const TritVal& t)
 Trit& Trit::operator=(const Trit& t)
 {
     this->value = t.value;
+    return *this;
+}
+
+Trit& Trit::operator=(const int v)
+{
+    switch(v)
+    {
+        case 0:
+            this->value = iii::TR_FALSE;
+            break;
+        case 1:
+            this->value = iii::TR_UNK;
+            break;
+        case 2:
+            this->value = iii::TR_TRUE;
+            break;
+        default:
+            this->value = iii::TR_FALSE;
+            break;
+    }
     return *this;
 }
 

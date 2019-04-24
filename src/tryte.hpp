@@ -16,8 +16,9 @@ namespace iii
 
 // powers of 3               0  1  2  3   4   5    6    7     8     9
 static int pow3_lut[]     = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683};
-// powers of 3           9      8     7     6    5    4   3   2  1  0
-static int inv_pow3_lut[] = {19683, 6561, 2187, 729, 243, 81, 27, 9, 3, 1};
+// powers of 3               8     7     6    5    4   3   2  1  0
+static int inv_pow3_lut[] = {6561, 2187, 729, 243, 81, 27, 9, 3, 1};
+//static int inv_pow3_lut[] = {19683, 6561, 2187, 729, 243, 81, 27, 9, 3, 1};
 
 class Tryte
 {
@@ -28,6 +29,7 @@ class Tryte
         Tryte();
         Tryte(const int v);
         Tryte(const Tryte& that);
+        ~Tryte();
 
         // conversions to standard types 
 
@@ -47,6 +49,10 @@ class Tryte
         Tryte operator+(const Tryte& t) const;
         Tryte operator-(const Tryte& t) const;
 
+        // other operators 
+        const Trit& operator[](const int i) const;
+        Trit& operator[](const int i);
+
         // getters 
         Trit getCarry(void) const;
         Trit getTrit(const int trit) const;
@@ -54,11 +60,12 @@ class Tryte
         // setters 
         void setTrit(const int trit, const Trit& t);
         
-        // other operators 
-        const Trit& operator[](const int i) const;
-        Trit& operator[](const int i);
 
+        // debug methods - remove
+        void printTrits(void);
 
+        // type conversion
+        void fromInt(const int v);
         int toInt(void);
         int nonaryhex(void);
         std::string toString(void);

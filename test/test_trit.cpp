@@ -36,7 +36,7 @@ TEST_F(TestTrit, test_init)
     // Create a new trit
     iii::Trit test_trit;
     std::cout << "Trit value : " << test_trit.toString() << std::endl;
-    ASSERT_EQ(iii::TR_UNK, test_trit.value);
+    ASSERT_EQ(iii::TR_FALSE, test_trit.value);
 
     iii::Trit trit_false('-');
     ASSERT_EQ(iii::TR_FALSE, trit_false.value);
@@ -215,12 +215,12 @@ TEST_F(TestTrit, test_accept)
 TEST_F(TestTrit, test_to_int)
 {
     iii::Trit test_trit;
-    ASSERT_EQ(iii::TR_UNK, test_trit.value);
-    ASSERT_EQ(1, test_trit.toInt());
+    ASSERT_EQ(iii::TR_FALSE, test_trit.value);
+    ASSERT_EQ(0, test_trit.toInt());
     test_trit = iii::TR_TRUE;
     ASSERT_EQ(2, test_trit.toInt());
-    test_trit = iii::TR_FALSE;
-    ASSERT_EQ(0, test_trit.toInt());
+    test_trit = iii::TR_UNK;
+    ASSERT_EQ(1, test_trit.toInt());
 }
 
 
