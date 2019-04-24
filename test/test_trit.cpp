@@ -46,6 +46,27 @@ TEST_F(TestTrit, test_init)
     ASSERT_EQ(iii::TR_TRUE, trit_true.value);
 }
 
+// Equlity operators
+TEST_F(TestTrit, test_eq)
+{
+    iii::Trit a_trit('+');
+    iii::Trit b_trit('-');
+    bool y;
+
+    y = (a_trit == b_trit);
+    ASSERT_EQ(false, y);
+}
+
+TEST_F(TestTrit, test_neq)
+{
+    iii::Trit a_trit('+');
+    iii::Trit b_trit('-');
+    bool y;
+
+    y = (a_trit != b_trit);
+    ASSERT_EQ(true, y);
+}
+
 // Logic operators 
 TEST_F(TestTrit, test_and)
 {
@@ -119,6 +140,28 @@ TEST_F(TestTrit, test_xor)
     std::cout << std::endl;
 }
 
+TEST_F(TestTrit, test_not)
+{
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('-'), iii::Trit('0'), iii::Trit('+'), 
+        iii::Trit('-'), iii::Trit('0'), iii::Trit('+'), 
+        iii::Trit('-'), iii::Trit('0'), iii::Trit('+')
+    };
+
+    std::vector<iii::Trit> output_y_trits;
+
+    iii::Trit y_trit;
+    std::cout << "NOT  operator test" << std::endl;
+    std::cout << "A | Y = !A " << std::endl;
+    for(unsigned int t = 0; t < this->a_trits.size(); ++t)
+    {
+        y_trit = !this->a_trits[t];
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << this->a_trits[t].toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+}
 
 TEST_F(TestTrit, test_cons)
 {
@@ -167,6 +210,19 @@ TEST_F(TestTrit, test_accept)
     }
     std::cout << std::endl;
 }
+
+// Integer conversion
+TEST_F(TestTrit, test_to_int)
+{
+    iii::Trit test_trit;
+    ASSERT_EQ(iii::TR_UNK, test_trit.value);
+    ASSERT_EQ(1, test_trit.toInt());
+    test_trit = iii::TR_TRUE;
+    ASSERT_EQ(2, test_trit.toInt());
+    test_trit = iii::TR_FALSE;
+    ASSERT_EQ(0, test_trit.toInt());
+}
+
 
 int main(int argc, char *argv[])
 {

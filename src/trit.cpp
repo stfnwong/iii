@@ -105,7 +105,6 @@ Trit& Trit::operator|=(const Trit& t)
     return *this;
 }
 
-
 /* 
  * XOR 
  * Truth table :
@@ -130,6 +129,30 @@ Trit Trit::operator^(const Trit& t) const
     return Trit(iii::TR_TRUE);
 }
 
+/* 
+ * NOT 
+ * Truth table :
+ * A | Y = !A
+ * + | -
+ * 0 | 0
+ * - | +
+ *
+ */
+Trit Trit::operator!(void) const
+{
+    switch(this->value)
+    {
+        case iii::TR_FALSE:
+            return Trit(iii::TR_TRUE);
+        case iii::TR_UNK:
+            return Trit(iii::TR_UNK);
+        case iii::TR_TRUE:
+            return Trit(iii::TR_FALSE);
+        default:
+            return Trit(iii::TR_UNK);
+    }
+}
+
 // equality operators 
 bool Trit::operator==(const Trit& t) const
 {
@@ -144,6 +167,20 @@ bool Trit::operator!=(const Trit& t) const
         return false;
     return true;
 }
+
+//Trit Trit::operator==(const Trit& t) const
+//{
+//    if(this->value == t.value)
+//        return Trit(iii::TR_FALSE);
+//    return Trit(iii::TR_TRUE);
+//}
+//
+//Trit Trit::operator!=(const Trit& t) const
+//{
+//    if(this->value == t.value)
+//        return Trit(iii::TR_FALSE);
+//    return Trit(iii::TR_TRUE);
+//}
 
 // assignment operators 
 Trit& Trit::operator=(const TritVal& t)
@@ -222,7 +259,7 @@ int Trit::toInt(void) const
 // stringify
 std::string Trit::toString(void) 
 {
-   std::string s(1, tritval_str[this->value+2]);
+   std::string s(1, tritval_str[this->value+1]);
    return s;
 }
 

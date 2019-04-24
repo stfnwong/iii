@@ -27,11 +27,14 @@ Tryte::Tryte(const int v)
     if(v == 0)
     {
         for(int i = 0; i < 9; ++i)
-            this->trits[i] = 0;
+            this->trits[i] = iii::TR_UNK;
         this->carry = iii::TR_UNK;
     }
     else
     {
+        for(int i = 0; i < 9; ++i)
+            this->trits[i] = iii::TR_UNK;
+
         // deal with carry
         if(v > (iii::pow3_lut[8] / 2))
             this->carry = iii::TR_TRUE;
@@ -47,21 +50,26 @@ Tryte::Tryte(const int v)
         while(value > 0)
         {
             cur_t = value % 3;
+            std::cout << "[" << __func__ << "] tidx : " << tidx<< " cur_t : " << cur_t << std::endl;
             switch(cur_t)
             {
                 case 0:
-                    this->trits[tidx] = iii::TR_FALSE;
+                    this->trits[tidx] = iii::Trit(iii::TR_FALSE);
                     break;
                 case 1:
-                    this->trits[tidx] = iii::TR_UNK;
+                    this->trits[tidx] = iii::Trit(iii::TR_UNK);
                     break;
                 case 2:
-                    this->trits[tidx] = iii::TR_TRUE;
+                    this->trits[tidx] = iii::Trit(iii::TR_TRUE);
             }
-            std::cout << "[" << __func__ << "] cur_t : " << cur_t << std::endl;
             value = value / 3;
             tidx++;
         }
+        
+        // debug - remove 
+        for(int i = 9; i > 0; --i)
+            std::cout << this->trits[i].toString();
+        std::cout << std::endl;
     }
 }
 
@@ -94,10 +102,9 @@ Trit Tryte::operator==(const Tryte& t) const
 {
     for(int i = 0; i < 9; ++i)
     {
-        if(this->trits[i] != t.trits[i])
+        if(this->trits[i] != t[i])
             return Trit(iii::TR_FALSE);
     }
-
     return Trit(iii::TR_TRUE);
 }
 
@@ -105,11 +112,46 @@ Trit Tryte::operator!=(const Tryte& t) const
 {
     for(int i = 0; i < 9; ++i)
     {
-        if(this->trits[i] != t.trits[i])
+        if(this->trits[i] != t[i])
             return Trit(iii::TR_TRUE);
     }
-
     return Trit(iii::TR_FALSE);
+}
+
+Tryte Tryte::operator&(const Tryte& t) const
+{
+    Tryte tr;
+    for(int i = 0; i < 9; ++i)
+        tr.setTrit(i, this->trits[i] & t[i]);
+
+    return tr;
+}
+
+Tryte Tryte::operator|(const Tryte& t) const
+{
+    Tryte tr;
+    for(int i = 0; i < 9; ++i)
+        tr.setTrit(i, this->trits[i] | t[i]);
+
+    return tr;
+}
+
+Tryte Tryte::operator^(const Tryte& t) const
+{
+    Tryte tr;
+    for(int i = 0; i < 9; ++i)
+        tr.setTrit(i, this->trits[i] ^ t[i]);
+
+    return tr;
+}
+
+Tryte Tryte::operator~(void) const
+{
+    Tryte tr;
+    for(int i = 0; i < 9; ++i)
+        tr.setTrit(i, !this->trits[i]);
+
+    return tr;
 }
 
 // Arithmetic operators
@@ -119,6 +161,11 @@ Trit Tryte::operator!=(const Tryte& t) const
 Trit Tryte::getCarry(void) const
 {
     return this->carry;
+}
+
+Trit Tryte::getTrit(const int trit) const
+{
+    return this->trits[trit];
 }
 
 
@@ -144,8 +191,14 @@ Trit& Tryte::operator[](const int i)
 int Tryte::toInt(void)
 {
     int tryte_val = 0;
+    std::cout << "[" << __func__ << "] converting..." << std::endl;
+    //for(int t = 9; t > 0; --t)
     for(int t = 0; t < 9; ++t)
-        tryte_val += (this->trits[t].toInt() * iii::pow3_lut[t]);
+    {
+        std::cout << "[" << t << "] " << "(" << iii::inv_pow3_lut[t] << ") " << this->trits[t].toInt() << " ";
+        tryte_val += (this->trits[t].toInt()) * iii::inv_pow3_lut[t];
+        std::cout << tryte_val << std::endl;
+    }
     return tryte_val;
 }
 

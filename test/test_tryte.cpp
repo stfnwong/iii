@@ -30,9 +30,11 @@ TEST_F(TestTryte, test_init)
     ASSERT_EQ(9, test_tryte.toInt());
 
     // Test that we can set Tryte from an int
-    iii::Tryte tryte_from_int(5);
+    iii::Tryte tryte_from_int_zero(0);
+    ASSERT_EQ(0, tryte_from_int_zero.toInt());
+    iii::Tryte tryte_from_int(10);
     std::cout << "Tryte from int : " << tryte_from_int.toString() << std::endl;
-    ASSERT_EQ(5, tryte_from_int.toInt());
+    ASSERT_EQ(10, tryte_from_int.toInt());
 }
 
 TEST_F(TestTryte, test_to_int)
@@ -55,20 +57,47 @@ TEST_F(TestTryte, test_to_int)
 // Logic operators 
 TEST_F(TestTryte, test_eq)
 {
-    iii::Tryte a_tryte, b_tryte;;
-    ASSERT_EQ(0, a_tryte.toInt());
-    ASSERT_EQ(0, b_tryte.toInt());
+    iii::Tryte a_tryte, b_tryte;
+    iii::Trit y_trit;
 
-
+    b_tryte.setTrit(4, iii::TR_TRUE);
+    y_trit = (a_tryte == b_tryte);
+    //ASSERT_EQ(iii::TR_FALSE, y_trit);
 }
 
 TEST_F(TestTryte, test_neq)
 {
-    iii::Tryte a_tryte, b_tryte;;
-    ASSERT_EQ(0, a_tryte.toInt());
-    ASSERT_EQ(0, b_tryte.toInt());
+    iii::Tryte a_tryte, b_tryte;
+    iii::Trit y_trit;
+
+    b_tryte.setTrit(4, iii::TR_TRUE);
+    y_trit = (a_tryte != b_tryte);
+    //ASSERT_EQ(iii::TR_TRUE, y_trit);
 }
 
+TEST_F(TestTryte, test_bitwise_and)
+{
+    iii::Tryte a_tryte, b_tryte, y_tryte;
+    iii::Tryte expected_tryte;
+
+    a_tryte.setTrit(1, iii::TR_TRUE);
+    b_tryte.setTrit(1, iii::TR_TRUE);
+    b_tryte.setTrit(3, iii::TR_TRUE);
+
+    expected_tryte.setTrit(1, iii::TR_TRUE);
+    y_tryte = a_tryte & b_tryte;
+    //ASSERT_EQ(expected_tryte, y_tryte);
+}
+
+TEST_F(TestTryte, test_bitwise_or)
+{
+
+}
+
+TEST_F(TestTryte, test_bitwise_not)
+{
+
+}
 
 // Arithmetic operators 
 
