@@ -181,10 +181,10 @@ void Tryte::fromInt(const int v)
     int tidx = 0;
     int cur_t = 0;
 
+    // convert each trit in turn
     while(value > 0)
     {
         cur_t = value % 3;
-        std::cout << "[" << __func__ << "] tidx : " << tidx << " cur_t : " << cur_t << std::endl;
         switch(cur_t)
         {
             case 0:
@@ -206,12 +206,8 @@ int Tryte::toInt(void)
 {
     int tryte_val = 0;
 
-    this->printTrits();
     for(int t = 0; t < 9; ++t)
-    {
-        std::cout << "[" << __func__ << "] trit  : " << t << " tryte_val : " << tryte_val << std::endl;
         tryte_val += (this->trits[t].toInt() * iii::pow3_lut[t]);
-    }
 
     return tryte_val;
 }
