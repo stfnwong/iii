@@ -121,6 +121,19 @@ Tryte Tryte::operator~(void) const
 // TODO: inplace operations
 
 // Arithmetic operators
+Tryte Tryte::operator+(const Tryte& t) const
+{
+    Tryte tr;
+    Trit carry(0);
+    for(int i = 0; i < 9; ++i)
+    {
+        tr.trits[i] = this->trits[i];
+    }
+}
+
+Tryte Tryte::operator-(const Tryte& t) const
+{
+}
 
 // other operators
 const Trit& Tryte::operator[](const int i) const

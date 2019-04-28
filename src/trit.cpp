@@ -12,11 +12,14 @@ namespace iii
 {
 
 const char* tritval_str = "U-0+";
+TritVal trit_add_lut[] = {TR_TRUE,  TR_FALSE, TR_UNK, 
+                          TR_FALSE, TR_UNK,   TR_TRUE,
+                          TR_UNK,   TR_TRUE,  TR_FALSE
+};
 
 // --- constructors ---- //
 Trit::Trit()
 {
-    //this->value = iii::TR_UNK;
     this->value = iii::TR_FALSE;
 }
 
@@ -30,6 +33,24 @@ Trit::Trit(const char c)
         this->value = iii::TR_TRUE;
     else
         this->value = iii::TR_FALSE;
+}
+
+Trit::Trit(const int i)
+{
+    switch(i)
+    {
+        case 0:
+            this->value = iii::TR_FALSE;
+            break;
+        case 1:
+            this->value = iii::TR_UNK;
+            break;
+        case 2:
+            this->value = iii::TR_TRUE;
+            break;
+        default:
+            this->value = iii::TR_FALSE;
+    }
 }
 
 Trit::Trit(const TritVal& t)
@@ -152,6 +173,15 @@ Trit Trit::operator!(void) const
         default:
             return Trit(iii::TR_UNK);
     }
+}
+
+// Arithmetic operators 
+Trit Trit::operator+(const Trit& t) const
+{
+    // implement the truth table for addition (with no carry)
+    //std::cout << "[" << __func__ << "] +LUT[" << 3 * this->toInt() + t.toInt() << "] : " 
+    //    << trit_add_lut[3 * this->toInt() + t.toInt()] << std::endl;
+    return Trit(trit_add_lut[3 * this->toInt() + t.toInt()]);
 }
 
 // equality operators 

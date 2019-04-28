@@ -16,6 +16,7 @@ namespace iii
 
 typedef enum {TR_INVALID = -1, TR_FALSE=0, TR_UNK = 1, TR_TRUE = 2} TritVal;
 
+
 struct Trit
 {
     TritVal value;
@@ -23,6 +24,7 @@ struct Trit
     public:
         Trit();
         Trit(const char c);
+        Trit(const int i);
         Trit(const TritVal& t);
         Trit(const Trit& that);
         ~Trit() {} 
@@ -37,6 +39,9 @@ struct Trit
         Trit& operator|=(const Trit& t);
         Trit& operator&=(const Trit& t);
 
+        // arithmetic operators
+        Trit operator+(const Trit& t) const;
+
         // equality operators
         bool operator==(const Trit& t) const;
         bool operator!=(const Trit& t) const;
@@ -44,7 +49,6 @@ struct Trit
         //Trit operator!=(const Trit& t) const;
         
         // assignment operators
-        //Trit& operator=(const int val);
         Trit& operator=(const TritVal& t);
         Trit& operator=(const Trit& t);
         Trit& operator=(const int v);
