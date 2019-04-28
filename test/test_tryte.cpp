@@ -22,19 +22,21 @@ TEST_F(TestTryte, test_init)
 {
     // Create a new tryte
     iii::Tryte test_tryte;
-    std::cout << "Tryte value : " << test_tryte.toString() << std::endl;
+    //std::cout << "Tryte value : " << test_tryte.toString() << std::endl;
     ASSERT_EQ(0, test_tryte.toInt());
 
-    // test that when we set trits, the value changes correctly 
-    //test_tryte.setTrit(2, iii::TR_TRUE);
-    //ASSERT_EQ(9, test_tryte.toInt());
 
     //// Test that we can set Tryte from an int
-    //iii::Tryte tryte_from_int_zero(0);
-    //ASSERT_EQ(0, tryte_from_int_zero.toInt());
-    //iii::Tryte tryte_from_int(10);
+    iii::Tryte tryte_from_int_zero(0);
+    ASSERT_EQ(0, tryte_from_int_zero.toInt());
+    iii::Tryte tryte_from_int(15);
     //std::cout << "Tryte from int : " << tryte_from_int.toString() << std::endl;
-    //ASSERT_EQ(10, tryte_from_int.toInt());
+    ASSERT_EQ(15, tryte_from_int.toInt());
+}
+
+TEST_F(TestTryte, test_set_trit)
+{
+
 }
 
 TEST_F(TestTryte, test_to_int)
@@ -48,7 +50,7 @@ TEST_F(TestTryte, test_to_int)
     for(int t = 8; t > 0; --t)
     {
         test_tryte.setTrit(t, iii::TR_UNK);
-        ASSERT_EQ(iii::inv_pow3_lut[t], test_tryte.toInt());
+        ASSERT_EQ(iii::pow3_lut[t], test_tryte.toInt());
         test_tryte.setTrit(t, iii::TR_FALSE);
     }
 }

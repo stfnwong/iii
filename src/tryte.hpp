@@ -14,14 +14,19 @@
 namespace iii
 {
 
-// powers of 3               0  1  2  3   4   5    6    7     8     9
-static int pow3_lut[]     = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683};
+// powers of 3               0  1  2  3   4   5    6    7     8 
+static int pow3_lut[]     = {1, 3, 9, 27, 81, 243, 729, 2187, 6561};
 // powers of 3               8     7     6    5    4   3   2  1  0
 static int inv_pow3_lut[] = {6561, 2187, 729, 243, 81, 27, 9, 3, 1};
-//static int inv_pow3_lut[] = {19683, 6561, 2187, 729, 243, 81, 27, 9, 3, 1};
+
 
 class Tryte
 {
+    // TODO : it would be simpler to implement this as big-endian, 
+    // so that index 0 of this array would become the LSB, and index 8
+    // would become the MSB. In HDL, we can do 9 downto 0 or [8:0] for
+    // words to create little-endian trytes, but I don't know that its 
+    // worth the hassle of emulation that here.
     Trit trits[9];
     Trit carry;
 

@@ -223,6 +223,30 @@ TEST_F(TestTrit, test_to_int)
     ASSERT_EQ(1, test_trit.toInt());
 }
 
+TEST_F(TestTrit, test_from_int)
+{
+    iii::Trit test_trit;
+    ASSERT_EQ(0, test_trit.toInt());
+
+    int rhs = 1;
+    test_trit = rhs;
+    ASSERT_EQ(iii::TR_UNK, test_trit.value);
+    ASSERT_EQ(1, test_trit.toInt());
+
+    rhs = 2;
+    test_trit = rhs;
+    ASSERT_EQ(iii::TR_TRUE, test_trit.value);
+    ASSERT_EQ(2, test_trit.toInt());
+
+    // values > 2 illegal, and will be converted to 0
+    for(int rhs = 3; rhs < 10; ++rhs)
+    {
+        test_trit = rhs;
+        ASSERT_EQ(iii::TR_FALSE, test_trit.value);
+        ASSERT_EQ(0, test_trit.toInt());
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
