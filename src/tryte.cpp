@@ -118,6 +118,7 @@ Tryte Tryte::operator~(void) const
 
     return tr;
 }
+// TODO: inplace operations
 
 // Arithmetic operators
 
@@ -147,6 +148,18 @@ Trit Tryte::getTrit(const int trit) const
 void Tryte::setTrit(const int trit, const Trit& t)
 {
     this->trits[trit] = t;
+}
+
+void Tryte::allClear(void)
+{
+    for(int t = 0; t < 9; ++t)
+        this->trits[t] = iii::TR_FALSE;
+}
+
+void Tryte::allSet(void)
+{
+    for(int t = 0; t < 9; ++t)
+        this->trits[t] = iii::TR_TRUE;
 }
 
 

@@ -48,6 +48,20 @@ TEST_F(TestTryte, test_to_int)
     }
 }
 
+TEST_F(TestTryte, test_from_int)
+{
+    // ctor from int
+    iii::Tryte test_tryte(15);
+    ASSERT_EQ(15, test_tryte.toInt());
+
+    // now test that we can assign from int on rhs
+    test_tryte = 64;
+    ASSERT_EQ(64, test_tryte.toInt());
+    std::vector<int> expected_trits = {1, 0, 1, 2};
+    for(unsigned int t = 0; t < expected_trits.size(); ++t)
+        ASSERT_EQ(expected_trits[t], test_tryte[t].toInt());
+}
+
 
 // Logic operators 
 TEST_F(TestTryte, test_eq)
@@ -74,6 +88,7 @@ TEST_F(TestTryte, test_bitwise_and)
 {
     iii::Tryte a_tryte, b_tryte, y_tryte;
     iii::Tryte expected_tryte;
+    iii::Trit trit_eq;
 
     a_tryte.setTrit(1, iii::TR_TRUE);
     b_tryte.setTrit(1, iii::TR_TRUE);
@@ -81,17 +96,74 @@ TEST_F(TestTryte, test_bitwise_and)
 
     expected_tryte.setTrit(1, iii::TR_TRUE);
     y_tryte = a_tryte & b_tryte;
-    //ASSERT_EQ(expected_tryte, y_tryte);
+
+    trit_eq = (expected_tryte == y_tryte);
+    ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
+
+    a_tryte.allClear();
+    b_tryte.allClear();
+    expected_tryte.allClear();
+
+    a_tryte.setTrit(2, iii::TR_TRUE);
+    b_tryte.setTrit(3, iii::TR_TRUE);
+
+    y_tryte = a_tryte & b_tryte;
+    trit_eq = (expected_tryte == y_tryte);
+    ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
 }
 
 TEST_F(TestTryte, test_bitwise_or)
 {
+    iii::Tryte a_tryte, b_tryte, y_tryte;
+    iii::Tryte expected_tryte;
+    iii::Trit trit_eq;
 
+    a_tryte.setTrit(1, iii::TR_TRUE);
+    b_tryte.setTrit(1, iii::TR_TRUE);
+    b_tryte.setTrit(3, iii::TR_TRUE);
+
+    expected_tryte.setTrit(1, iii::TR_TRUE);
+    expected_tryte.setTrit(3, iii::TR_TRUE);
+    y_tryte = a_tryte | b_tryte;
+
+    trit_eq = (expected_tryte == y_tryte);
+    ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
+
+    a_tryte.allClear();
+    b_tryte.allClear();
+    expected_tryte.allClear();
+
+    a_tryte.setTrit(2, iii::TR_TRUE);
+    b_tryte.setTrit(3, iii::TR_TRUE);
+    expected_tryte.setTrit(2, iii::TR_TRUE);
+    expected_tryte.setTrit(3, iii::TR_TRUE);
+
+    y_tryte = a_tryte | b_tryte;
+    trit_eq = (expected_tryte == y_tryte);
+    ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
 }
 
 TEST_F(TestTryte, test_bitwise_not)
 {
+    iii::Tryte a_tryte, y_tryte;
+    iii::Tryte expected_tryte;
+    iii::Trit trit_eq;
 
+    a_tryte.setTrit(0, iii::TR_TRUE);
+    a_tryte.setTrit(1, iii::TR_TRUE);
+
+    for(int t = 0; t < 9; ++t)
+    {
+        if(t < 2)
+            expected_tryte.setTrit(t, iii::TR_FALSE);
+        else
+            expected_tryte.setTrit(t, iii::TR_TRUE);
+    }
+
+    y_tryte = ~a_tryte;
+
+    trit_eq = (expected_tryte == y_tryte);
+    ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
 }
 
 // Arithmetic operators 

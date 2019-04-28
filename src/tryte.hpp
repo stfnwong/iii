@@ -59,6 +59,8 @@ class Tryte
 
         // setters 
         void setTrit(const int trit, const Trit& t);
+        void allClear(void);
+        void allSet(void);
         
         // debug methods - remove
         void printTrits(void);
