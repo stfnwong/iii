@@ -167,7 +167,18 @@ TEST_F(TestTryte, test_bitwise_not)
 }
 
 // Arithmetic operators 
+TEST_F(TestTryte, test_add)
+{
+    iii::Tryte a_tryte, b_tryte, y_tryte;
+    iii::Tryte expected_tryte;
 
+    a_tryte = 1;
+    b_tryte = 1;
+    expected_tryte = 2;
+
+    y_tryte = a_tryte + b_tryte;
+    ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+}
 
 
 

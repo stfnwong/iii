@@ -121,18 +121,54 @@ Tryte Tryte::operator~(void) const
 // TODO: inplace operations
 
 // Arithmetic operators
-Tryte Tryte::operator+(const Tryte& t) const
+// TODO: if we could just do -1 here somehow, this would basically work..
+Tryte Tryte::operator+(const Tryte& t) 
 {
     Tryte tr;
-    Trit carry(0);
+    Trit s;
+    Trit ca(0);
+    Trit cb(0);
+    Trit ci(0);
     for(int i = 0; i < 9; ++i)
     {
-        tr.trits[i] = this->trits[i];
+        s = (this->trits[i] + t.trits[i]) + ci;
+        ca = this->trits[i].cons(t.trits[i]);
+        cb = (this->trits[i] + t.trits[i]).cons(ca);
+        ci = ca.accept(cb);
+        tr.trits[i] = s;
+        std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
+        std::cout << "[" << __func__ << "]" << std::setw(4) << s.toString() 
+            << std::setw(3) << ca.toString() 
+            << std::setw(3) << cb.toString() 
+            << std::setw(3) << ci.toString() << std::endl;
     }
+
+    return tr;
 }
 
-Tryte Tryte::operator-(const Tryte& t) const
+Tryte Tryte::operator-(const Tryte& t) 
 {
+    Tryte tr;
+    Trit s;
+    Trit ca(0);
+    Trit cb(0);
+    Trit ci(0);
+    tr.trits[8] = 2;
+    for(int i = 0; i < 9; ++i)
+    {
+        s = (this->trits[i] + t.trits[i]) + ci;
+        ca = this->trits[i].cons(t.trits[i]);
+        cb = (this->trits[i] + t.trits[i]).cons(ca);
+        ci = ca.accept(cb);
+        tr.trits[i] = s;
+        std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
+        std::cout << "[" << __func__ << "]" << std::setw(4) << s.toString() 
+            << std::setw(3) << ca.toString() 
+            << std::setw(3) << cb.toString() 
+            << std::setw(3) << ci.toString() << std::endl;
+    }
+
+    return tr;
 }
 
 // other operators

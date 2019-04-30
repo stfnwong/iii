@@ -215,6 +215,34 @@ TEST_F(TestTrit, test_add)
     }
     std::cout << std::endl;
 }
+
+TEST_F(TestTrit, test_add_int)
+{
+    std::vector<int> b_ints = {2, 2, 2,
+                               1, 1, 1,
+                               0, 0, 0
+    };
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('-'), iii::Trit('+'), iii::Trit('0'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('0'), iii::Trit('-'), iii::Trit('+')
+    };
+    std::vector<iii::Trit> output_y_trits;
+
+    iii::Trit y_trit;
+    std::cout << "+  operator test" << std::endl;
+    std::cout << "A | B | Y = A + B" << std::endl;
+    for(unsigned int t = 0; t < this->a_trits.size(); ++t)
+    {
+        y_trit = this->a_trits[t] + b_ints[t];
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << this->a_trits[t].toString() << " | " 
+                  << iii::Trit(b_ints[t]).toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+
+}
 // TODO : implement unsigned sub...
 
 

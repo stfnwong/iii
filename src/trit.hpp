@@ -41,6 +41,8 @@ struct Trit
 
         // arithmetic operators
         Trit operator+(const Trit& t) const;
+        Trit operator+(const int v) const;
+        Trit operator-(const int v) const;
 
         // equality operators
         bool operator==(const Trit& t) const;

@@ -46,8 +46,8 @@ class Tryte
         Tryte operator~(void) const;
 
         // arithmetic operators
-        Tryte operator+(const Tryte& t) const;
-        Tryte operator-(const Tryte& t) const;
+        Tryte operator+(const Tryte& t); 
+        Tryte operator-(const Tryte& t);
 
         // other operators 
         const Trit& operator[](const int i) const;

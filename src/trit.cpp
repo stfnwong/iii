@@ -184,6 +184,50 @@ Trit Trit::operator+(const Trit& t) const
     return Trit(trit_add_lut[3 * this->toInt() + t.toInt()]);
 }
 
+Trit Trit::operator+(const int v) const
+{
+    switch(v)
+    {
+        case 0:
+            return Trit(trit_add_lut[3 * this->toInt()]);
+            break;
+        case 1:
+            return Trit(trit_add_lut[3 * this->toInt() + 1]);
+            break;
+        case 2:
+            return Trit(trit_add_lut[3 * this->toInt() + 2]);
+            break;
+        default:        // this is technically an error...
+            return Trit(this->value);
+            break;
+    }
+}
+
+// TODO: implement subtraction table?
+//Trit Trit::operator-(const Trit& t) const
+//{
+//
+//}
+
+Trit Trit::operator-(const int v) const
+{
+    switch(v)
+    {
+        case 0:
+            return Trit(trit_add_lut[3 * this->toInt()]);
+            break;
+        case 1:
+            return Trit(trit_add_lut[3 * this->toInt() + 1]);
+            break;
+        case 2:
+            return Trit(trit_add_lut[3 * this->toInt() + 2]);
+            break;
+        default:        // this is technically an error...
+            return Trit(this->value);
+            break;
+    }
+}
+
 // equality operators 
 bool Trit::operator==(const Trit& t) const
 {
