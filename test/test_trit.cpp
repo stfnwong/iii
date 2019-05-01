@@ -36,7 +36,7 @@ TEST_F(TestTrit, test_init)
     // Create a new trit
     iii::Trit test_trit;
     std::cout << "Trit value : " << test_trit.toString() << std::endl;
-    ASSERT_EQ(iii::TR_FALSE, test_trit.value);
+    ASSERT_EQ(iii::TR_UNK, test_trit.value);
 
     // test init from symbol
     iii::Trit trit_false('-');
@@ -48,7 +48,7 @@ TEST_F(TestTrit, test_init)
 
     // test init from integer
     iii::Trit trit_from_int(1);
-    ASSERT_EQ(iii::TR_UNK, trit_from_int.value);
+    ASSERT_EQ(iii::TR_TRUE, trit_from_int.value);
 }
 
 // Equlity operators
@@ -218,9 +218,9 @@ TEST_F(TestTrit, test_add)
 
 TEST_F(TestTrit, test_add_int)
 {
-    std::vector<int> b_ints = {2, 2, 2,
-                               1, 1, 1,
-                               0, 0, 0
+    std::vector<int> b_ints = { 1,  1,  1,
+                                0,  0,  0,
+                               -1, -1, -1
     };
     std::vector<iii::Trit> expected_y_trits = {
         iii::Trit('-'), iii::Trit('+'), iii::Trit('0'), 
@@ -274,12 +274,12 @@ TEST_F(TestTrit, test_accept)
 TEST_F(TestTrit, test_to_int)
 {
     iii::Trit test_trit;
-    ASSERT_EQ(iii::TR_FALSE, test_trit.value);
+    ASSERT_EQ(iii::TR_UNK, test_trit.value);
     ASSERT_EQ(0, test_trit.toInt());
     test_trit = iii::TR_TRUE;
-    ASSERT_EQ(2, test_trit.toInt());
-    test_trit = iii::TR_UNK;
     ASSERT_EQ(1, test_trit.toInt());
+    test_trit = iii::TR_FALSE;
+    ASSERT_EQ(-1, test_trit.toInt());
 }
 
 TEST_F(TestTrit, test_from_int)
@@ -287,21 +287,21 @@ TEST_F(TestTrit, test_from_int)
     iii::Trit test_trit;
     ASSERT_EQ(0, test_trit.toInt());
 
-    int rhs = 1;
+    int rhs = 0;
     test_trit = rhs;
     ASSERT_EQ(iii::TR_UNK, test_trit.value);
-    ASSERT_EQ(1, test_trit.toInt());
+    ASSERT_EQ(0, test_trit.toInt());
 
-    rhs = 2;
+    rhs = 1;
     test_trit = rhs;
     ASSERT_EQ(iii::TR_TRUE, test_trit.value);
-    ASSERT_EQ(2, test_trit.toInt());
+    ASSERT_EQ(1, test_trit.toInt());
 
-    // values > 2 illegal, and will be converted to 0
-    for(int rhs = 3; rhs < 10; ++rhs)
+    // values > 1 illegal, and will be converted to 0
+    for(int rhs = 2; rhs < 10; ++rhs)
     {
         test_trit = rhs;
-        ASSERT_EQ(iii::TR_FALSE, test_trit.value);
+        ASSERT_EQ(iii::TR_UNK, test_trit.value);
         ASSERT_EQ(0, test_trit.toInt());
     }
 }

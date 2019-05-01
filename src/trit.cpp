@@ -11,7 +11,7 @@
 namespace iii 
 {
 
-const char* tritval_str = "U-0+";
+const char* tritval_str = "E-0+";
 TritVal trit_add_lut[] = {TR_TRUE,  TR_FALSE, TR_UNK, 
                           TR_FALSE, TR_UNK,   TR_TRUE,
                           TR_UNK,   TR_TRUE,  TR_FALSE
@@ -20,36 +20,43 @@ TritVal trit_add_lut[] = {TR_TRUE,  TR_FALSE, TR_UNK,
 // --- constructors ---- //
 Trit::Trit()
 {
-    this->value = iii::TR_FALSE;
+    this->value = iii::TR_UNK;
 }
 
 Trit::Trit(const char c)
 {
-    if(c == '-')
-        this->value = iii::TR_FALSE;
-    else if(c == '0')
-        this->value = iii::TR_UNK;
-    else if(c == '+')
-        this->value = iii::TR_TRUE;
-    else
-        this->value = iii::TR_FALSE;
+    switch(c)
+    {
+        case '-':
+            this->value = iii::TR_FALSE;
+            break;
+        case '0':
+            this->value = iii::TR_UNK;
+            break;
+        case '+':
+            this->value = iii::TR_TRUE;
+            break;
+        default:
+            this->value = iii::TR_UNK;
+            break;
+    }
 }
 
 Trit::Trit(const int i)
 {
     switch(i)
     {
-        case 0:
+        case iii::TR_FALSE:
             this->value = iii::TR_FALSE;
             break;
-        case 1:
+        case iii::TR_UNK:
             this->value = iii::TR_UNK;
             break;
-        case 2:
+        case iii::TR_TRUE:
             this->value = iii::TR_TRUE;
             break;
         default:
-            this->value = iii::TR_FALSE;
+            this->value = iii::TR_UNK;
     }
 }
 
@@ -178,24 +185,21 @@ Trit Trit::operator!(void) const
 // Arithmetic operators 
 Trit Trit::operator+(const Trit& t) const
 {
-    // implement the truth table for addition (with no carry)
-    //std::cout << "[" << __func__ << "] +LUT[" << 3 * this->toInt() + t.toInt() << "] : " 
-    //    << trit_add_lut[3 * this->toInt() + t.toInt()] << std::endl;
-    return Trit(trit_add_lut[3 * this->toInt() + t.toInt()]);
+    return Trit(trit_add_lut[3 * (this->toInt()+1) + (t.toInt()+1)]);
 }
 
 Trit Trit::operator+(const int v) const
 {
     switch(v)
     {
-        case 0:
-            return Trit(trit_add_lut[3 * this->toInt()]);
+        case iii::TR_FALSE:
+            return Trit(trit_add_lut[3 * (this->toInt() + 1)]);
             break;
-        case 1:
-            return Trit(trit_add_lut[3 * this->toInt() + 1]);
+        case iii::TR_UNK:
+            return Trit(trit_add_lut[3 * (this->toInt() + 1) + 1]);
             break;
-        case 2:
-            return Trit(trit_add_lut[3 * this->toInt() + 2]);
+        case iii::TR_TRUE:
+            return Trit(trit_add_lut[3 * (this->toInt() + 1) + 2]);
             break;
         default:        // this is technically an error...
             return Trit(this->value);
@@ -213,13 +217,13 @@ Trit Trit::operator-(const int v) const
 {
     switch(v)
     {
-        case 0:
+        case iii::TR_FALSE:
             return Trit(trit_add_lut[3 * this->toInt()]);
             break;
-        case 1:
+        case iii::TR_UNK:
             return Trit(trit_add_lut[3 * this->toInt() + 1]);
             break;
-        case 2:
+        case iii::TR_TRUE:
             return Trit(trit_add_lut[3 * this->toInt() + 2]);
             break;
         default:        // this is technically an error...
@@ -274,17 +278,17 @@ Trit& Trit::operator=(const int v)
 {
     switch(v)
     {
-        case 0:
+        case -1:
             this->value = iii::TR_FALSE;
             break;
-        case 1:
+        case 0:
             this->value = iii::TR_UNK;
             break;
-        case 2:
+        case 1:
             this->value = iii::TR_TRUE;
             break;
         default:
-            this->value = iii::TR_FALSE;
+            this->value = iii::TR_UNK;
             break;
     }
     return *this;
