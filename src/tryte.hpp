@@ -62,7 +62,6 @@ class Tryte
         void allClear(void);
         void allSet(void);
         
-        // debug methods - remove
         void printTrits(void);
 
         // type conversion

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iostream>
 #include <iomanip>
+#include <cstdlib>
 #include <cstdint>
 #include "tryte.hpp"
 
@@ -124,24 +125,26 @@ Tryte Tryte::operator~(void) const
 Tryte Tryte::operator+(const Tryte& t) 
 {
     Tryte tr;
-    Trit s;
+    Trit si;
     Trit ca(0);
     Trit cb(0);
     Trit ci(0);
     for(int i = 0; i < 9; ++i)
     {
-        s = (this->trits[i] + t.trits[i]) + ci;
+        si = (this->trits[i] + t.trits[i]) + ci;
         ca = this->trits[i].cons(t.trits[i]);
-        cb = (this->trits[i] + t.trits[i]).cons(ca);
+        cb = (this->trits[i] + t.trits[i]).cons(ci);
         ci = ca.accept(cb);
-        tr.trits[i] = s;
+        tr.trits[i] = si;
         // debug output
         std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
-        std::cout << "[" << __func__ << "]" << std::setw(4) << s.toString() 
+        std::cout << "[" << __func__ << "]" << std::setw(4) << si.toString() 
             << std::setw(3) << ca.toString() 
             << std::setw(3) << cb.toString() 
             << std::setw(3) << ci.toString() << std::endl;
     }
+
+    std::cout << std::endl;
 
     return tr;
 }
@@ -156,7 +159,7 @@ Tryte Tryte::operator-(const Tryte& t)
     tr.trits[8] = 2;
     for(int i = 0; i < 9; ++i)
     {
-        s = (this->trits[i] + t.trits[i]) + ci;
+        s = (this->trits[i] + !t.trits[i]) + ci;
         ca = this->trits[i].cons(t.trits[i]);
         cb = (this->trits[i] + t.trits[i]).cons(ca);
         ci = ca.accept(cb);
@@ -212,15 +215,13 @@ void Tryte::allSet(void)
 }
 
 
-
-// TODO: debug methods - remove these
 void Tryte::printTrits(void)
 {
     for(int i = 0; i < 9; ++i)
-        std::cout << "|" << std::setw(1) << i << "|";
+        std::cout << "|" << std::setw(2) << i;
     std::cout << std::endl;
     for(int i = 0; i < 9; ++i)
-        std::cout << " " << std::setw(1) << this->trits[i].toInt() << " ";
+        std::cout << " " << std::setw(2) << this->trits[i].toInt();
     std::cout << std::endl;
 }
 
@@ -242,7 +243,7 @@ void Tryte::fromInt(const int v)
     else
         this->carry = iii::TR_UNK;
 
-    int value = v;
+    int value = std::abs(v);
     int tidx = 0;
     int cur_t = 0;
 
@@ -268,24 +269,20 @@ void Tryte::fromInt(const int v)
         tidx++;
     }
     // if the original number was negative, then flip all the trits
-    // TODO: remove (debug)
-    this->printTrits();
+    if(v < 0)
+    {
+        for(int i = 0; i < 9; ++i)
+            this->trits[i] = !this->trits[i];
+    }
+
 }
 
 
 int Tryte::toInt(void)
 {
     int tryte_val = 0;
-
-    // debug : remove 
-    this->printTrits();
     for(int t = 0; t < 9; ++t)
-    {
         tryte_val += ((this->trits[t].toInt()) * iii::pow3_lut[t]);
-        std::cout << "[" << __func__ << "] trit[" << t << "] (" << this->trits[t].toInt() << ") tryte_val : " << tryte_val << std::endl;
-    }
-    std::cout << std::endl;
-
 
     return tryte_val;
 }

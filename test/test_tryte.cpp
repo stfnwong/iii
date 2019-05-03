@@ -35,7 +35,6 @@ TEST_F(TestTryte, test_init)
 TEST_F(TestTryte, test_to_int)
 {
     iii::Tryte test_tryte;
-    std::cout << "Tryte value : " << test_tryte.toString() << std::endl;
     ASSERT_EQ(0, test_tryte.toInt());
 
     // set each trit in turn and check int converted output
@@ -51,19 +50,41 @@ TEST_F(TestTryte, test_to_int)
 TEST_F(TestTryte, test_from_int)
 {
     // ctor from int
+    iii::Tryte test_tryte(15);
+    ASSERT_EQ(15, test_tryte.toInt());
 
-    iii::Tryte test_tryte(8);
-    ASSERT_EQ(8, test_tryte.toInt());
+    // now test that we can assign from int on rhs
+    test_tryte = 64;
+    ASSERT_EQ(64, test_tryte.toInt());
+    // NOTE : be careful here about the correct endianness of the expected values.
+    // The [0] position trit is the least significant. Therefore we need to order
+    // the values in the array in big-endian order so that the iteration proceeds 
+    // correctly.
+    std::vector<int> expected_trits = {1, 0, 1, -1, 1};
 
-    //iii::Tryte test_tryte(15);
-    //ASSERT_EQ(15, test_tryte.toInt());
+    for(unsigned int t = 0; t < expected_trits.size(); ++t)
+        ASSERT_EQ(expected_trits[t], test_tryte[t].toInt());
 
-    //// now test that we can assign from int on rhs
-    //test_tryte = 64;
-    //ASSERT_EQ(64, test_tryte.toInt());
-    //std::vector<int> expected_trits = {1, 0, 1, 2};
-    //for(unsigned int t = 0; t < expected_trits.size(); ++t)
-    //    ASSERT_EQ(expected_trits[t], test_tryte[t].toInt());
+    // Try an signed int
+    iii::Tryte signed_tryte(-8);
+    ASSERT_EQ(-8, signed_tryte.toInt());
+    signed_tryte = -128;
+    ASSERT_EQ(-128, signed_tryte.toInt());
+
+    // Try a whole lot of ints
+    iii::Tryte range_tryte;
+    for(int n = 0; n < 500; ++n)
+    {
+        range_tryte = n;
+        ASSERT_EQ(n, range_tryte.toInt());
+    }
+
+    // Try a whole lot of signed ints
+    for(int n = 0; n > -500; --n)
+    {
+        range_tryte = n;
+        ASSERT_EQ(n, range_tryte.toInt());
+    }
 }
 
 
@@ -163,7 +184,7 @@ TEST_F(TestTryte, test_bitwise_not)
         else
             expected_tryte.setTrit(t, iii::TR_UNK);
     }
-    // perform no
+    // perform not
     y_tryte = ~a_tryte;
 
     trit_eq = (expected_tryte == y_tryte);
@@ -179,12 +200,43 @@ TEST_F(TestTryte, test_add)
     a_tryte = 1;
     b_tryte = 1;
     expected_tryte = 2;
-
     y_tryte = a_tryte + b_tryte;
     ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+
+    a_tryte = 8;
+    b_tryte = 4;
+    expected_tryte = (8 + 4);
+    y_tryte = a_tryte + b_tryte;
+    ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+
+    // Add lots of numbers, start with positive integers
+    for(int n = 0; n < 500; ++n)
+    {
+        a_tryte = n;
+        b_tryte = n;
+        expected_tryte = n + n;
+        std::cout << a_tryte.toInt() << " + " << b_tryte.toInt() << std::endl;
+        y_tryte = a_tryte + b_tryte;
+        ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+    }
+
+    // Add lots of negative integers
+    for(int n = 0; n > -500; --n)
+    {
+        a_tryte = n;
+        b_tryte = n;
+        expected_tryte = n + n;
+        std::cout << a_tryte.toInt() << " + " << b_tryte.toInt() << std::endl;
+        y_tryte = a_tryte + b_tryte;
+        ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+    }
+
+    //a_tryte = 64;
+    //b_tryte = 64;
+    //expected_tryte = 128;
+    //y_tryte = a_tryte + b_tryte;
+    //ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
 }
-
-
 
 
 int main(int argc, char *argv[])
