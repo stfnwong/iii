@@ -136,15 +136,7 @@ Tryte Tryte::operator+(const Tryte& t)
         cb = (this->trits[i] + t.trits[i]).cons(ci);
         ci = ca.accept(cb);
         tr.trits[i] = si;
-        // debug output
-        std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
-        std::cout << "[" << __func__ << "]" << std::setw(4) << si.toString() 
-            << std::setw(3) << ca.toString() 
-            << std::setw(3) << cb.toString() 
-            << std::setw(3) << ci.toString() << std::endl;
     }
-
-    std::cout << std::endl;
 
     return tr;
 }
@@ -152,20 +144,19 @@ Tryte Tryte::operator+(const Tryte& t)
 Tryte Tryte::operator-(const Tryte& t) 
 {
     Tryte tr;
-    Trit s;
+    Trit si;
     Trit ca(0);
     Trit cb(0);
     Trit ci(0);
-    tr.trits[8] = 2;
     for(int i = 0; i < 9; ++i)
     {
-        s = (this->trits[i] + !t.trits[i]) + ci;
+        si = (this->trits[i] - t.trits[i]) + ci;
         ca = this->trits[i].cons(t.trits[i]);
         cb = (this->trits[i] + t.trits[i]).cons(ca);
         ci = ca.accept(cb);
-        tr.trits[i] = s;
+        tr.trits[i] = si;
         std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
-        std::cout << "[" << __func__ << "]" << std::setw(4) << s.toString() 
+        std::cout << "[" << __func__ << "]" << std::setw(4) << si.toString() 
             << std::setw(3) << ca.toString() 
             << std::setw(3) << cb.toString() 
             << std::setw(3) << ci.toString() << std::endl;

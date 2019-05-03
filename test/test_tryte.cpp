@@ -215,7 +215,6 @@ TEST_F(TestTryte, test_add)
         a_tryte = n;
         b_tryte = n;
         expected_tryte = n + n;
-        std::cout << a_tryte.toInt() << " + " << b_tryte.toInt() << std::endl;
         y_tryte = a_tryte + b_tryte;
         ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
     }
@@ -226,16 +225,47 @@ TEST_F(TestTryte, test_add)
         a_tryte = n;
         b_tryte = n;
         expected_tryte = n + n;
-        std::cout << a_tryte.toInt() << " + " << b_tryte.toInt() << std::endl;
         y_tryte = a_tryte + b_tryte;
         ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
     }
+}
 
-    //a_tryte = 64;
-    //b_tryte = 64;
-    //expected_tryte = 128;
-    //y_tryte = a_tryte + b_tryte;
-    //ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+TEST_F(TestTryte, test_sub)
+{
+    iii::Tryte a_tryte, b_tryte, y_tryte;
+    iii::Tryte expected_tryte;
+
+    a_tryte = 1;
+    b_tryte = 1;
+    expected_tryte = 0;
+    y_tryte = a_tryte - b_tryte;
+    ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+
+    a_tryte = 8;
+    b_tryte = 4;
+    expected_tryte = (8 - 4);
+    y_tryte = a_tryte - b_tryte;
+    ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+
+    // subtract positive integers - results are negative integers
+    for(int n = 0; n < 500; ++n)
+    {
+        a_tryte = n;
+        b_tryte = n;
+        expected_tryte = n - n;
+        y_tryte = a_tryte - b_tryte;
+        ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+    }
+
+    // subtract negative integers - results are positive integers
+    for(int n = 0; n > -500; --n)
+    {
+        a_tryte = n;
+        b_tryte = n;
+        expected_tryte = n - n;
+        y_tryte = a_tryte - b_tryte;
+        ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+    }
 }
 
 

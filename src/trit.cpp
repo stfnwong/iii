@@ -16,6 +16,10 @@ TritVal trit_add_lut[] = {TR_TRUE,  TR_FALSE, TR_UNK,
                           TR_FALSE, TR_UNK,   TR_TRUE,
                           TR_UNK,   TR_TRUE,  TR_FALSE
 };
+TritVal trit_sub_lut[] = {TR_UNK,  TR_FALSE, TR_FALSE, 
+                          TR_TRUE, TR_UNK,   TR_FALSE,
+                          TR_TRUE, TR_TRUE,  TR_UNK
+};
 
 // --- constructors ---- //
 Trit::Trit()
@@ -207,24 +211,23 @@ Trit Trit::operator+(const int v) const
     }
 }
 
-// TODO: implement subtraction table?
-//Trit Trit::operator-(const Trit& t) const
-//{
-//
-//}
+Trit Trit::operator-(const Trit& t) const
+{
+    return Trit(trit_sub_lut[3 * (this->toInt()+1) + (t.toInt()+1)]);
+}
 
 Trit Trit::operator-(const int v) const
 {
     switch(v)
     {
         case iii::TR_FALSE:
-            return Trit(trit_add_lut[3 * this->toInt()]);
+            return Trit(trit_sub_lut[3 * (this->toInt() + 1)]);
             break;
         case iii::TR_UNK:
-            return Trit(trit_add_lut[3 * this->toInt() + 1]);
+            return Trit(trit_sub_lut[3 * (this->toInt() + 1) + 1]);
             break;
         case iii::TR_TRUE:
-            return Trit(trit_add_lut[3 * this->toInt() + 2]);
+            return Trit(trit_sub_lut[3 * (this->toInt() + 1) + 2]);
             break;
         default:        // this is technically an error...
             return Trit(this->value);
