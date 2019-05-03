@@ -358,7 +358,7 @@ int Trit::toInt(void) const
 // stringify
 std::string Trit::toString(void) 
 {
-   std::string s(1, tritval_str[this->value+1]);
+   std::string s(1, tritval_str[this->value+2]);
    return s;
 }
 

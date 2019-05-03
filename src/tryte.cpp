@@ -18,8 +18,8 @@ namespace iii
 Tryte::Tryte()
 {
     for(int t = 0; t < 9; ++t)
-        this->trits[t] = iii::TR_FALSE;
-    this->carry = iii::TR_FALSE;
+        this->trits[t] = iii::TR_UNK;
+    this->carry = iii::TR_UNK;
 }
 
 Tryte::Tryte(const int v)
@@ -29,8 +29,8 @@ Tryte::Tryte(const int v)
     else
     {
         for(int i = 0; i < 9; ++i)
-            this->trits[i] = iii::TR_FALSE;
-        this->carry = iii::TR_FALSE;
+            this->trits[i] = iii::TR_UNK;
+        this->carry = iii::TR_UNK;
     }
 }
 
@@ -121,7 +121,6 @@ Tryte Tryte::operator~(void) const
 // TODO: inplace operations
 
 // Arithmetic operators
-// TODO: if we could just do -1 here somehow, this would basically work..
 Tryte Tryte::operator+(const Tryte& t) 
 {
     Tryte tr;
@@ -136,6 +135,7 @@ Tryte Tryte::operator+(const Tryte& t)
         cb = (this->trits[i] + t.trits[i]).cons(ca);
         ci = ca.accept(cb);
         tr.trits[i] = s;
+        // debug output
         std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
         std::cout << "[" << __func__ << "]" << std::setw(4) << s.toString() 
             << std::setw(3) << ca.toString() 
@@ -225,42 +225,51 @@ void Tryte::printTrits(void)
 }
 
 // type conversions
+// this only works for unsigned numbers, but one of the 
+// supposed advantages of ternary logic is that handling signs is less
+// complicated than with binary logics
 void Tryte::fromInt(const int v)
 {
     // init all trits to false
     for(int i = 0; i < 9; ++i)
-        this->trits[i] = iii::TR_FALSE;
+        this->trits[i] = iii::TR_UNK;
 
     // deal with carry
     if(v > (iii::pow3_lut[8] / 2))
         this->carry = iii::TR_TRUE;
     else if(v < (-iii::pow3_lut[8] / 2))
-        this->carry = iii::TR_UNK;
-    else
         this->carry = iii::TR_FALSE;
+    else
+        this->carry = iii::TR_UNK;
 
     int value = v;
     int tidx = 0;
     int cur_t = 0;
 
-    // convert each trit in turn
+    // perform conversion
     while(value > 0)
     {
         cur_t = value % 3;
+        // work out the current lowest digit
         switch(cur_t)
         {
             case 0:
-                this->trits[tidx] = iii::Trit(iii::TR_FALSE);
-                break;
-            case 1:
                 this->trits[tidx] = iii::Trit(iii::TR_UNK);
                 break;
-            case 2:
+            case 1:
                 this->trits[tidx] = iii::Trit(iii::TR_TRUE);
+                value -= 1;
+                break;
+            case 2:
+                this->trits[tidx] = iii::Trit(iii::TR_FALSE);
+                value += 1;
         }
         value = value / 3;
         tidx++;
     }
+    // if the original number was negative, then flip all the trits
+    // TODO: remove (debug)
+    this->printTrits();
 }
 
 
@@ -268,53 +277,17 @@ int Tryte::toInt(void)
 {
     int tryte_val = 0;
 
+    // debug : remove 
+    this->printTrits();
     for(int t = 0; t < 9; ++t)
-        tryte_val += (this->trits[t].toInt() * iii::pow3_lut[t]);
+    {
+        tryte_val += ((this->trits[t].toInt()) * iii::pow3_lut[t]);
+        std::cout << "[" << __func__ << "] trit[" << t << "] (" << this->trits[t].toInt() << ") tryte_val : " << tryte_val << std::endl;
+    }
+    std::cout << std::endl;
+
 
     return tryte_val;
-}
-
-int Tryte::nonaryhex(void)
-{
-    int shift_dist = 0;
-    int rval = 0;
-    for(int t = 9; t > 0; t-=2)
-    {
-        char tchar = (*this)[t+1].toInt() + (this)[t].toInt() * 3;
-        switch(tchar)
-        {
-            case -4:
-                rval += 0xd << (shift_dist * 8);
-                break;
-            case -3:
-                rval += 0xc << (shift_dist * 8);
-                break;
-            case -2:
-                rval += 0xb << (shift_dist * 8);
-                break;
-            case -1:
-                rval += 0xa << (shift_dist * 8);
-                break;
-            case 0:
-                rval += 0x0 << (shift_dist * 8);
-                break;
-            case 1:
-                rval += 0x1 << (shift_dist * 8);
-                break;
-            case 2:
-                rval += 0x2 << (shift_dist * 8);
-                break;
-            case 3:
-                rval += 0x3 << (shift_dist * 8);
-                break;
-            case 4:
-                rval += 0x4 << (shift_dist * 8);
-                break;
-        }
-        shift_dist++;
-    }
-
-    return rval;
 }
 
 std::string Tryte::toString(void)

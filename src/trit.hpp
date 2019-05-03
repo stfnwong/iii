@@ -14,7 +14,7 @@
 namespace iii
 {
 
-typedef enum {TR_INVALID = -1, TR_FALSE=-1, TR_UNK = 0, TR_TRUE = 1} TritVal;
+typedef enum {TR_INVALID = -2, TR_FALSE=-1, TR_UNK = 0, TR_TRUE = 1} TritVal;
 
 
 struct Trit
