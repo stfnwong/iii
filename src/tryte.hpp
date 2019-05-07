@@ -45,8 +45,13 @@ class Tryte
         Tryte operator^(const Tryte& t) const;
         Tryte operator~(void) const;
 
+        // TODO: in-place logic operators?
+
+        // compare operators
+
         // arithmetic operators
         Tryte operator+(const Tryte& t); 
+        //Tryte operator+(const int v);
         Tryte operator-(const Tryte& t);
 
         // other operators 
@@ -61,6 +66,7 @@ class Tryte
         void setTrit(const int trit, const Trit& t);
         void allClear(void);
         void allSet(void);
+        void invert(void);
         
         void printTrits(void);
 

@@ -36,8 +36,8 @@ struct Trit
         Trit operator!(void) const;
 
         // in-place operators (TODO)
-        Trit& operator|=(const Trit& t);
-        Trit& operator&=(const Trit& t);
+        //Trit& operator|=(const Trit& t);
+        //Trit& operator&=(const Trit& t);
 
         // arithmetic operators
         Trit operator+(const Trit& t) const;

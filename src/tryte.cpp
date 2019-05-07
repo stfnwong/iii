@@ -119,7 +119,6 @@ Tryte Tryte::operator~(void) const
 
     return tr;
 }
-// TODO: inplace operations
 
 // Arithmetic operators
 Tryte Tryte::operator+(const Tryte& t) 
@@ -129,6 +128,7 @@ Tryte Tryte::operator+(const Tryte& t)
     Trit ca(0);
     Trit cb(0);
     Trit ci(0);
+
     for(int i = 0; i < 9; ++i)
     {
         si = (this->trits[i] + t.trits[i]) + ci;
@@ -136,6 +136,15 @@ Tryte Tryte::operator+(const Tryte& t)
         cb = (this->trits[i] + t.trits[i]).cons(ci);
         ci = ca.accept(cb);
         tr.trits[i] = si;
+
+        std::cout << "[" << __func__ << "]   s ca cb ci  ta tb" << std::endl;
+        std::cout << "[" << __func__ << "]" << std::setw(4) << si.toString() 
+            << std::setw(3) << ca.toString() 
+            << std::setw(3) << cb.toString() 
+            << std::setw(3) << ci.toString() 
+            << std::setw(3) << this->trits[i].toInt()
+            << std::setw(3) << t.trits[i].toInt()
+            << std::endl;
     }
 
     return tr;
@@ -144,22 +153,34 @@ Tryte Tryte::operator+(const Tryte& t)
 Tryte Tryte::operator-(const Tryte& t) 
 {
     Tryte tr;
+    //Tryte other_tr(t);
     Trit si;
     Trit ca(0);
     Trit cb(0);
     Trit ci(0);
+    
+    //other_tr.printTrits();
+    //other_tr.invert();
+    //other_tr.printTrits();
     for(int i = 0; i < 9; ++i)
     {
-        si = (this->trits[i] - t.trits[i]) + ci;
-        ca = this->trits[i].cons(t.trits[i]);
-        cb = (this->trits[i] + t.trits[i]).cons(ca);
+        si = (this->trits[i] + !t.trits[i]) + ci;
+        ca = this->trits[i].cons(!t.trits[i]);
+        cb = (this->trits[i] + !t.trits[i]).cons(ci);
         ci = ca.accept(cb);
+        //si = (this->trits[i] + other_tr[i]) + ci;
+        //ca = this->trits[i].cons(other_tr[i]);
+        //cb = (this->trits[i] + other_tr[i]).cons(ci);
+        //ci = ca.accept(cb);
         tr.trits[i] = si;
-        std::cout << "[" << __func__ << "]   s ca cb ci " << std::endl;
+        std::cout << "[" << __func__ << "]   s ca cb ci  ta tb" << std::endl;
         std::cout << "[" << __func__ << "]" << std::setw(4) << si.toString() 
             << std::setw(3) << ca.toString() 
             << std::setw(3) << cb.toString() 
-            << std::setw(3) << ci.toString() << std::endl;
+            << std::setw(3) << ci.toString() 
+            << std::setw(3) << this->trits[i].toInt()
+            << std::setw(3) << !tr.trits[i].toInt()
+            << std::endl;
     }
 
     return tr;
@@ -205,6 +226,12 @@ void Tryte::allSet(void)
         this->trits[t] = iii::TR_TRUE;
 }
 
+void Tryte::invert(void)
+{
+    for(int t = 0; t < 9; t++)
+        this->trits[t] = !this->trits[t];
+}
+
 
 void Tryte::printTrits(void)
 {
@@ -238,7 +265,7 @@ void Tryte::fromInt(const int v)
     int tidx = 0;
     int cur_t = 0;
 
-    // perform conversion
+    // perform unsigned conversion
     while(value > 0)
     {
         cur_t = value % 3;
@@ -265,7 +292,6 @@ void Tryte::fromInt(const int v)
         for(int i = 0; i < 9; ++i)
             this->trits[i] = !this->trits[i];
     }
-
 }
 
 

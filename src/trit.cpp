@@ -100,12 +100,11 @@ Trit Trit::operator&(const Trit& t) const
     return Trit(iii::TR_UNK);
 }
 
-// TODO : inline operator needs testing
-Trit& Trit::operator&=(const Trit& t)
-{
-    this->value = (*this & t).value;
-    return *this;
-}
+//Trit& Trit::operator&=(const Trit& t)
+//{
+//    this->value = (*this & t).value;
+//    return *this;
+//}
 
 /* 
  * OR (Max)
@@ -131,12 +130,11 @@ Trit Trit::operator|(const Trit& t) const
     return Trit(iii::TR_FALSE);
 }
 
-// TODO : inline operator needs testing
-Trit& Trit::operator|=(const Trit& t)
-{
-    this->value = (*this | t).value;
-    return *this;
-}
+//Trit& Trit::operator|=(const Trit& t)
+//{
+//    this->value = (*this | t).value;
+//    return *this;
+//}
 
 /* 
  * XOR 
@@ -249,20 +247,6 @@ bool Trit::operator!=(const Trit& t) const
         return false;
     return true;
 }
-
-//Trit Trit::operator==(const Trit& t) const
-//{
-//    if(this->value == t.value)
-//        return Trit(iii::TR_FALSE);
-//    return Trit(iii::TR_TRUE);
-//}
-//
-//Trit Trit::operator!=(const Trit& t) const
-//{
-//    if(this->value == t.value)
-//        return Trit(iii::TR_FALSE);
-//    return Trit(iii::TR_TRUE);
-//}
 
 // assignment operators 
 Trit& Trit::operator=(const TritVal& t)

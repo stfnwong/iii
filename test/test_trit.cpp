@@ -121,6 +121,11 @@ TEST_F(TestTrit, test_or)
     std::cout << std::endl;
 }
 
+//TEST_F(TestTrit, test_inline_or)
+//{
+//
+//}
+
 TEST_F(TestTrit, test_xor)
 {
     std::vector<iii::Trit> expected_y_trits = {

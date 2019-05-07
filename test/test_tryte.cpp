@@ -189,6 +189,15 @@ TEST_F(TestTryte, test_bitwise_not)
 
     trit_eq = (expected_tryte == y_tryte);
     ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
+
+    // ensure that this also works when doing integer convesions
+    a_tryte.allClear();
+    a_tryte = 4;
+    expected_tryte = -4;
+    y_tryte = ~a_tryte;
+    trit_eq = (expected_tryte == y_tryte);
+    ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
+
 }
 
 // Arithmetic operators 
@@ -238,12 +247,14 @@ TEST_F(TestTryte, test_sub)
     a_tryte = 1;
     b_tryte = 1;
     expected_tryte = 0;
+    std::cout << a_tryte.toInt() << " - " << b_tryte.toInt() << std::endl;
     y_tryte = a_tryte - b_tryte;
     ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
 
     a_tryte = 8;
     b_tryte = 4;
     expected_tryte = (8 - 4);
+    std::cout << a_tryte.toInt() << " - " << b_tryte.toInt() << std::endl;
     y_tryte = a_tryte - b_tryte;
     ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
 
@@ -253,6 +264,7 @@ TEST_F(TestTryte, test_sub)
         a_tryte = n;
         b_tryte = n;
         expected_tryte = n - n;
+        std::cout << a_tryte.toInt() << " - " << b_tryte.toInt() << std::endl;
         y_tryte = a_tryte - b_tryte;
         ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
     }
@@ -263,9 +275,50 @@ TEST_F(TestTryte, test_sub)
         a_tryte = n;
         b_tryte = n;
         expected_tryte = n - n;
+        std::cout << a_tryte.toInt() << " - " << b_tryte.toInt() << std::endl;
         y_tryte = a_tryte - b_tryte;
         ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
     }
+}
+
+TEST_F(TestTryte, test_sub_by_invert)
+{
+    iii::Tryte a_tryte, b_tryte, y_tryte;
+    iii::Tryte expected_tryte;
+
+    a_tryte = 8;
+    b_tryte = -4;
+    expected_tryte = (a_tryte.toInt() + b_tryte.toInt());
+    std::cout << a_tryte.toInt() << " + " << b_tryte.toInt() << std::endl;
+    y_tryte = a_tryte + b_tryte;
+    ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
+}
+
+TEST_F(TestTryte, test_invert)
+{
+    iii::Tryte test_tryte(64);
+    iii::Trit comp_trit;
+
+    iii::Tryte expected_tryte_pre_invert;
+    expected_tryte_pre_invert.setTrit(0, iii::Trit('+'));
+    expected_tryte_pre_invert.setTrit(1, iii::Trit('0'));
+    expected_tryte_pre_invert.setTrit(2, iii::Trit('+'));
+    expected_tryte_pre_invert.setTrit(3, iii::Trit('-'));
+    expected_tryte_pre_invert.setTrit(4, iii::Trit('+'));
+    //std::cout << "Expected int before invert : " << expected_tryte_pre_invert.toInt() << std::endl;
+
+    iii::Tryte expected_tryte_post_invert;
+    expected_tryte_post_invert.setTrit(0, iii::Trit('-'));
+    expected_tryte_post_invert.setTrit(1, iii::Trit('0'));
+    expected_tryte_post_invert.setTrit(2, iii::Trit('-'));
+    expected_tryte_post_invert.setTrit(3, iii::Trit('+'));
+    expected_tryte_post_invert.setTrit(4, iii::Trit('-'));
+
+    comp_trit = (expected_tryte_pre_invert == test_tryte);
+    ASSERT_EQ(iii::TR_TRUE, comp_trit.value);
+    test_tryte.invert();
+    comp_trit = (expected_tryte_post_invert == test_tryte);
+    ASSERT_EQ(iii::TR_TRUE, comp_trit.value);
 }
 
 
