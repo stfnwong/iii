@@ -63,7 +63,9 @@ Tryte& Tryte::operator=(const Tryte& t)
 }
 
 
-// Logic operators 
+/*
+ * logic operators
+ */
 Trit Tryte::operator==(const Tryte& t) const
 {
     for(int i = 0; i < 9; ++i)
@@ -120,7 +122,32 @@ Tryte Tryte::operator~(void) const
     return tr;
 }
 
-// Arithmetic operators
+/*
+ * comparison operators 
+ */
+//Trit Tryte::operator>(const Tryte& t) const
+//{
+//}
+//
+//Trit Tryte::operator>=(const Tryte& t) const
+//{
+//
+//}
+//
+//Trit Tryte::operator<(const Tryte& t) const
+//{
+//
+//}
+//
+//Trit Tryte::operator<=(const Tryte& t) const
+//{
+//
+//}
+
+
+/*
+ * arithmetic operators
+ */
 Tryte Tryte::operator+(const Tryte& t) 
 {
     Tryte tr;
@@ -181,6 +208,17 @@ Trit Tryte::getCarry(void) const
 Trit Tryte::getTrit(const int trit) const
 {
     return this->trits[trit];
+}
+
+bool Tryte::eqZero(void) const
+{
+    for(int i = 0; i < 9; ++i)
+    {
+        if(this->trits[i] != iii::TR_UNK)
+            return false;
+    }
+
+    return true;
 }
 
 // setters  

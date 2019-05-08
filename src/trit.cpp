@@ -11,14 +11,40 @@
 namespace iii 
 {
 
+/*
+ * For all the below comparison LUTs, the arrangement assumes 
+ *           B
+ *       -   0   +
+ *    +------------
+ *   -|  i0, i1, i2,
+ * A 0|  i3, i4, i5,
+ *   +|  i6, i7, i8
+ * 
+ * That is, the LUT is flattened version of the above array, and 
+ * elements are accessed using 
+ *
+ * Y = 3A + B
+ */
+
 const char* tritval_str = "E-0+";
-TritVal trit_add_lut[] = {TR_TRUE,  TR_FALSE, TR_UNK, 
-                          TR_FALSE, TR_UNK,   TR_TRUE,
-                          TR_UNK,   TR_TRUE,  TR_FALSE
+TritVal trit_add_lut[]  = {TR_TRUE,  TR_FALSE, TR_UNK, 
+                           TR_FALSE, TR_UNK,   TR_TRUE,
+                           TR_UNK,   TR_TRUE,  TR_FALSE
 };
-TritVal trit_sub_lut[] = {TR_UNK,  TR_FALSE, TR_FALSE, 
-                          TR_TRUE, TR_UNK,   TR_FALSE,
-                          TR_TRUE, TR_TRUE,  TR_UNK
+
+TritVal trit_sub_lut[]  = {TR_UNK,   TR_FALSE, TR_FALSE, 
+                           TR_TRUE,  TR_UNK,   TR_FALSE,
+                           TR_TRUE,  TR_TRUE,  TR_UNK
+};
+ 
+//TritVal trit_comp_lut[] = {TR_UNK,   TR_TRUE,  TR_TRUE,
+//                           TR_FALSE, TR_UNK,   TR_TRUE,
+//                           TR_FALSE, TR_FALSE, TR_UNK
+//};
+
+TritVal trit_comp_lut[] = {TR_FALSE, TR_FALSE, TR_FALSE,
+                           TR_FALSE, TR_UNK,   TR_TRUE,
+                           TR_TRUE,  TR_TRUE,  TR_TRUE
 };
 
 // --- constructors ---- //
@@ -74,7 +100,9 @@ Trit::Trit(const Trit& that)
     this->value = that.value;
 }
 
-// arithmetic operators
+/*
+ * logic operators
+ */
 
 /* 
  * AND (Min)
@@ -184,7 +212,10 @@ Trit Trit::operator!(void) const
     }
 }
 
-// Arithmetic operators 
+
+/* 
+ * arithmetic operators 
+ */
 Trit Trit::operator+(const Trit& t) const
 {
     return Trit(trit_add_lut[3 * (this->toInt()+1) + (t.toInt()+1)]);
@@ -233,7 +264,9 @@ Trit Trit::operator-(const int v) const
     }
 }
 
-// equality operators 
+/*
+ * equality operators
+ */
 bool Trit::operator==(const Trit& t) const
 {
     if(this->value == t.value)
@@ -248,7 +281,39 @@ bool Trit::operator!=(const Trit& t) const
     return true;
 }
 
-// assignment operators 
+
+/*
+ * comparison operators
+ */
+bool Trit::operator>(const Trit& t) const
+{
+    return (trit_comp_lut[3 * (this->toInt() + 1) + (t.toInt() + 1)] == iii::TR_TRUE) ? true : false;
+}
+
+bool Trit::operator<(const Trit& t) const
+{
+    return (trit_comp_lut[3 * (this->toInt() + 1) + (t.toInt() + 1)] == iii::TR_FALSE) ? true : false;
+}
+
+bool Trit::operator>=(const Trit& t) const
+{
+    if((trit_comp_lut[3 * (this->toInt()+1) + (t.toInt()+1)] == iii::TR_TRUE) ||
+        trit_comp_lut[3 * (this->toInt()+1) + (t.toInt()+1)] == iii::TR_UNK)
+        return true;
+    return false;
+}
+
+bool Trit::operator<=(const Trit& t) const
+{
+    if((trit_comp_lut[3 * (this->toInt()+1) + (t.toInt()+1)] == iii::TR_FALSE) ||
+        trit_comp_lut[3 * (this->toInt()+1) + (t.toInt()+1)] == iii::TR_UNK)
+        return true;
+    return false;
+}
+
+/*
+ * asssignment operators
+ */
 Trit& Trit::operator=(const TritVal& t)
 {
     this->value = t;

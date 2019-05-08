@@ -50,6 +50,12 @@ struct Trit
         bool operator!=(const Trit& t) const;
         //Trit operator==(const Trit& t) const;
         //Trit operator!=(const Trit& t) const;
+
+        // comparison operators 
+        bool operator<(const Trit& t) const;
+        bool operator>(const Trit& t) const;
+        bool operator>=(const Trit& t) const;
+        bool operator<=(const Trit& t) const;
         
         // assignment operators
         Trit& operator=(const TritVal& t);

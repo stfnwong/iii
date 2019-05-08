@@ -324,6 +324,44 @@ TEST_F(TestTrit, test_accept)
     std::cout << std::endl;
 }
 
+
+// comparison operators 
+TEST_F(TestTrit, test_lt)
+{
+    iii::Trit trit_minus('-');
+    iii::Trit trit_plus('+');
+    iii::Trit trit_zero('0');
+
+    ASSERT_EQ(true, trit_minus < trit_plus);
+    ASSERT_EQ(false, trit_plus < trit_minus);
+    //ASSERT_EQ(true, trit_zero < trit_plus);
+    //ASSERT_EQ(false, trit_zero < trit_minus);
+}
+
+TEST_F(TestTrit, test_gt)
+{
+    iii::Trit trit_minus('-');
+    iii::Trit trit_plus('+');
+    iii::Trit trit_zero('0');
+
+    ASSERT_EQ(true, trit_plus > trit_minus);
+    ASSERT_EQ(false, trit_minus > trit_minus);
+}
+
+TEST_F(TestTrit, test_lte)
+{
+    iii::Trit trit_minus('-');
+    iii::Trit trit_plus('+');
+    iii::Trit trit_zero('0');
+
+    ASSERT_EQ(true, trit_minus <= trit_plus);
+    ASSERT_EQ(false, trit_minus >= trit_plus);
+    ASSERT_EQ(true, trit_minus <= trit_zero);
+    //ASSERT_EQ(false, trit_zero <= trit_minus);
+}
+
+
+
 // Integer conversion
 TEST_F(TestTrit, test_to_int)
 {
