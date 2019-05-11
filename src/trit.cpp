@@ -37,15 +37,11 @@ TritVal trit_sub_lut[]  = {TR_UNK,   TR_FALSE, TR_FALSE,
                            TR_TRUE,  TR_TRUE,  TR_UNK
 };
  
-//TritVal trit_comp_lut[] = {TR_UNK,   TR_TRUE,  TR_TRUE,
-//                           TR_FALSE, TR_UNK,   TR_TRUE,
-//                           TR_FALSE, TR_FALSE, TR_UNK
-//};
-
-TritVal trit_comp_lut[] = {TR_FALSE, TR_FALSE, TR_FALSE,
-                           TR_FALSE, TR_UNK,   TR_TRUE,
-                           TR_TRUE,  TR_TRUE,  TR_TRUE
+TritVal trit_comp_lut[] = {TR_UNK  , TR_FALSE, TR_FALSE,
+                           TR_TRUE , TR_UNK,   TR_FALSE,
+                           TR_TRUE , TR_TRUE , TR_UNK
 };
+
 
 // --- constructors ---- //
 Trit::Trit()
@@ -399,6 +395,12 @@ Trit Trit::accept(const Trit& t)
         return Trit(iii::TR_FALSE);
     
     return Trit(iii::TR_UNK);
+}
+
+Trit Trit::comp(const Trit& t)
+{
+    return Trit(trit_comp_lut[3 * (this->toInt() + 1) + (t.toInt() + 1)]);
+    //return Trit(trit_comp_lut[3 * (t.toInt() + 1) + (this->toInt() + 1)]);
 }
 
 // intify

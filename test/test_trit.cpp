@@ -325,6 +325,29 @@ TEST_F(TestTrit, test_accept)
 }
 
 
+TEST_F(TestTrit, test_comp)
+{    
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('0'), iii::Trit('-'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('0')
+    };
+
+    iii::Trit y_trit;
+    std::cout << "COMP  operator test" << std::endl;
+    std::cout << "A | B | Y = A (comp) B" << std::endl;
+    for(unsigned int t = 0; t < this->a_trits.size(); ++t)
+    {
+        y_trit = this->a_trits[t].comp(this->b_trits[t]);
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << this->a_trits[t].toString() << " | " 
+                  << this->b_trits[t].toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+}
+
+
 // comparison operators 
 TEST_F(TestTrit, test_lt)
 {
@@ -334,8 +357,8 @@ TEST_F(TestTrit, test_lt)
 
     ASSERT_EQ(true, trit_minus < trit_plus);
     ASSERT_EQ(false, trit_plus < trit_minus);
-    //ASSERT_EQ(true, trit_zero < trit_plus);
-    //ASSERT_EQ(false, trit_zero < trit_minus);
+    ASSERT_EQ(true, trit_zero < trit_plus);
+    ASSERT_EQ(false, trit_zero < trit_minus);
 }
 
 TEST_F(TestTrit, test_gt)
@@ -357,7 +380,7 @@ TEST_F(TestTrit, test_lte)
     ASSERT_EQ(true, trit_minus <= trit_plus);
     ASSERT_EQ(false, trit_minus >= trit_plus);
     ASSERT_EQ(true, trit_minus <= trit_zero);
-    //ASSERT_EQ(false, trit_zero <= trit_minus);
+    ASSERT_EQ(false, trit_zero <= trit_minus);
 }
 
 

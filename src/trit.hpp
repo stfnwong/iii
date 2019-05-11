@@ -62,9 +62,10 @@ struct Trit
         Trit& operator=(const Trit& t);
         Trit& operator=(const int v);
 
-        // logic functions - these don't have a valid c++ operator associated with them
+        // logic functions (which don't have operator overloads)
         Trit cons(const Trit& t);
         Trit accept(const Trit& t);
+        Trit comp(const Trit& t);
 
         // intify
         int toInt(void) const;
