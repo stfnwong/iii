@@ -18,6 +18,9 @@ class TestTryte : public ::testing::Test
 };
 
 
+/*
+ * Test constructor(s)
+ */
 TEST_F(TestTryte, test_init)
 {
     // Create a new tryte
@@ -32,6 +35,9 @@ TEST_F(TestTryte, test_init)
 }
 
 
+/*
+ * Test conversion to integer
+ */
 TEST_F(TestTryte, test_to_int)
 {
     iii::Tryte test_tryte;
@@ -47,6 +53,9 @@ TEST_F(TestTryte, test_to_int)
     }
 }
 
+/*
+ * Test conversion from integer
+ */
 TEST_F(TestTryte, test_from_int)
 {
     // ctor from int
@@ -89,6 +98,9 @@ TEST_F(TestTryte, test_from_int)
 
 
 // Logic operators 
+/*
+ * Test EQ operator
+ */
 TEST_F(TestTryte, test_eq)
 {
     iii::Tryte a_tryte, b_tryte;
@@ -99,6 +111,9 @@ TEST_F(TestTryte, test_eq)
     ASSERT_EQ(iii::TR_FALSE, y_trit.value);
 }
 
+/*
+ * Test NEQ operator
+ */
 TEST_F(TestTryte, test_neq)
 {
     iii::Tryte a_tryte, b_tryte;
@@ -109,6 +124,9 @@ TEST_F(TestTryte, test_neq)
     ASSERT_EQ(iii::TR_TRUE, y_trit.value);
 }
 
+/*
+ * Test AND (&) operator
+ */
 TEST_F(TestTryte, test_bitwise_and)
 {
     iii::Tryte a_tryte, b_tryte, y_tryte;
@@ -137,6 +155,9 @@ TEST_F(TestTryte, test_bitwise_and)
     ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
 }
 
+/*
+ * Test OR (|) operator
+ */
 TEST_F(TestTryte, test_bitwise_or)
 {
     iii::Tryte a_tryte, b_tryte, y_tryte;
@@ -168,6 +189,9 @@ TEST_F(TestTryte, test_bitwise_or)
     ASSERT_EQ(iii::TR_TRUE, trit_eq.value);
 }
 
+/*
+ * Test NOT operator
+ */
 TEST_F(TestTryte, test_bitwise_not)
 {
     iii::Tryte a_tryte, y_tryte;
@@ -200,7 +224,64 @@ TEST_F(TestTryte, test_bitwise_not)
 
 }
 
+// Comparison operators 
+/*
+ * Test LT operator
+ */
+TEST_F(TestTryte, test_lt)
+{
+    iii::Tryte a_tryte, b_tryte, c_tryte;
+
+    a_tryte = 50;
+    b_tryte = 5;
+    c_tryte = 50;
+
+    ASSERT_EQ(false, a_tryte < b_tryte);
+    ASSERT_EQ(true, b_tryte < a_tryte);
+    ASSERT_EQ(false, c_tryte < a_tryte);
+    ASSERT_EQ(false, a_tryte < c_tryte);
+}
+
+/*
+ * Test GT operator
+ */
+TEST_F(TestTryte, test_gt)
+{
+    iii::Tryte a_tryte, b_tryte, c_tryte;
+
+    a_tryte = 50;
+    b_tryte = 5;
+    c_tryte = 50;
+
+    ASSERT_EQ(true, a_tryte > b_tryte);
+    ASSERT_EQ(false, b_tryte > a_tryte);
+    ASSERT_EQ(false, c_tryte > a_tryte);
+    ASSERT_EQ(false, a_tryte > c_tryte);
+    ASSERT_EQ(true, c_tryte > b_tryte);
+}
+
+/*
+ * Test LTE operator
+ */
+TEST_F(TestTryte, test_lte)
+{
+    iii::Tryte a_tryte, b_tryte, c_tryte;
+
+    a_tryte = 50;
+    b_tryte = 5;
+    c_tryte = 50;
+
+    ASSERT_EQ(true, a_tryte >= b_tryte);
+    ASSERT_EQ(false, b_tryte >= a_tryte);
+    ASSERT_EQ(true, c_tryte >= a_tryte);
+    ASSERT_EQ(true, a_tryte >= c_tryte);
+    ASSERT_EQ(true, c_tryte >= b_tryte);
+}
+
 // Arithmetic operators 
+/*
+ * Test addition operator
+ */
 TEST_F(TestTryte, test_add)
 {
     iii::Tryte a_tryte, b_tryte, y_tryte;
@@ -239,6 +320,9 @@ TEST_F(TestTryte, test_add)
     }
 }
 
+/*
+ * Test subtraction operator
+ */
 TEST_F(TestTryte, test_sub)
 {
     iii::Tryte a_tryte, b_tryte, y_tryte;
@@ -277,6 +361,9 @@ TEST_F(TestTryte, test_sub)
     }
 }
 
+/*
+ * Test subtraction by inversion
+ */
 TEST_F(TestTryte, test_sub_by_invert)
 {
     iii::Tryte a_tryte, b_tryte, y_tryte;
@@ -289,6 +376,9 @@ TEST_F(TestTryte, test_sub_by_invert)
     ASSERT_EQ(expected_tryte.toInt(), y_tryte.toInt());
 }
 
+/*
+ * Test trit inversion
+ */
 TEST_F(TestTryte, test_invert)
 {
     iii::Tryte test_tryte(64);

@@ -66,6 +66,7 @@ struct Trit
         Trit cons(const Trit& t);
         Trit accept(const Trit& t);
         Trit comp(const Trit& t);
+        Trit compZero(const Trit& t);
 
         // intify
         int toInt(void) const;

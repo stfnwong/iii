@@ -31,6 +31,9 @@ class TestTrit : public ::testing::Test
         };
 };
 
+/*
+ * Test constructor
+ */
 TEST_F(TestTrit, test_init)
 {
     // Create a new trit
@@ -52,6 +55,9 @@ TEST_F(TestTrit, test_init)
 }
 
 // Equlity operators
+/*
+ * Test EQ operator
+ */
 TEST_F(TestTrit, test_eq)
 {
     iii::Trit a_trit('+');
@@ -62,6 +68,9 @@ TEST_F(TestTrit, test_eq)
     ASSERT_EQ(false, y);
 }
 
+/*
+ * Test NEQ operator
+ */
 TEST_F(TestTrit, test_neq)
 {
     iii::Trit a_trit('+');
@@ -73,6 +82,9 @@ TEST_F(TestTrit, test_neq)
 }
 
 // Logic operators 
+/*
+ * Test AND operator
+ */
 TEST_F(TestTrit, test_and)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -97,6 +109,9 @@ TEST_F(TestTrit, test_and)
     std::cout << std::endl;
 }
 
+/*
+ * Test OR operator
+ */
 TEST_F(TestTrit, test_or)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -126,6 +141,9 @@ TEST_F(TestTrit, test_or)
 //
 //}
 
+/*
+ * Test XOR operator
+ */
 TEST_F(TestTrit, test_xor)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -150,6 +168,9 @@ TEST_F(TestTrit, test_xor)
     std::cout << std::endl;
 }
 
+/*
+ * Test NOT operator
+ */
 TEST_F(TestTrit, test_not)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -173,6 +194,9 @@ TEST_F(TestTrit, test_not)
     std::cout << std::endl;
 }
 
+/*
+ * Test CONS operation
+ */
 TEST_F(TestTrit, test_cons)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -198,6 +222,9 @@ TEST_F(TestTrit, test_cons)
 }
 
 // Arithmetic operators
+/*
+ * Test addition operator
+ */
 TEST_F(TestTrit, test_add)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -221,6 +248,9 @@ TEST_F(TestTrit, test_add)
     std::cout << std::endl;
 }
 
+/*
+ * Test addition operator with integer types
+ */
 TEST_F(TestTrit, test_add_int)
 {
     std::vector<int> b_ints = { 1,  1,  1,
@@ -249,6 +279,9 @@ TEST_F(TestTrit, test_add_int)
 }
 
 
+/*
+ * Test subtraction operator
+ */
 TEST_F(TestTrit, test_sub)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -272,6 +305,9 @@ TEST_F(TestTrit, test_sub)
     std::cout << std::endl;
 }
 
+/*
+ * Test subtraction with integer types
+ */
 TEST_F(TestTrit, test_sub_int)
 {
     std::vector<int> b_ints = { 1,  1,  1,
@@ -299,7 +335,9 @@ TEST_F(TestTrit, test_sub_int)
     std::cout << std::endl;
 }
 
-
+/*
+ * Test ACCEPT operation
+ */
 TEST_F(TestTrit, test_accept)
 {
     std::vector<iii::Trit> expected_y_trits = {
@@ -324,7 +362,9 @@ TEST_F(TestTrit, test_accept)
     std::cout << std::endl;
 }
 
-
+/*
+ * Compare two Trits
+ */
 TEST_F(TestTrit, test_comp)
 {    
     std::vector<iii::Trit> expected_y_trits = {
@@ -347,8 +387,36 @@ TEST_F(TestTrit, test_comp)
     std::cout << std::endl;
 }
 
+/*
+ * Compare two Trits against zero 
+ */
+TEST_F(TestTrit, test_comp_zero)
+{
+    std::vector<iii::Trit> expected_y_trits = {
+        iii::Trit('+'), iii::Trit('+'), iii::Trit('+'), 
+        iii::Trit('+'), iii::Trit('0'), iii::Trit('-'), 
+        iii::Trit('-'), iii::Trit('-'), iii::Trit('-')
+    };
+
+    iii::Trit y_trit;
+    std::cout << "COMP_ZERO  operator test" << std::endl;
+    std::cout << "A | B | Y = A (compZero) B" << std::endl;
+    for(unsigned int t = 0; t < this->a_trits.size(); ++t)
+    {
+        y_trit = this->a_trits[t].compZero(this->b_trits[t]);
+        ASSERT_EQ(expected_y_trits[t], y_trit);
+        std::cout << this->a_trits[t].toString() << " | " 
+                  << this->b_trits[t].toString() << " | " 
+                  << y_trit.toString() << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 
 // comparison operators 
+/*
+ * Test GT operator
+ */
 TEST_F(TestTrit, test_lt)
 {
     iii::Trit trit_minus('-');
@@ -359,8 +427,12 @@ TEST_F(TestTrit, test_lt)
     ASSERT_EQ(false, trit_plus < trit_minus);
     ASSERT_EQ(true, trit_zero < trit_plus);
     ASSERT_EQ(false, trit_zero < trit_minus);
+    ASSERT_EQ(true, trit_minus < trit_zero);
 }
 
+/*
+ * Test LT operator
+ */
 TEST_F(TestTrit, test_gt)
 {
     iii::Trit trit_minus('-');
@@ -369,8 +441,13 @@ TEST_F(TestTrit, test_gt)
 
     ASSERT_EQ(true, trit_plus > trit_minus);
     ASSERT_EQ(false, trit_minus > trit_minus);
+    ASSERT_EQ(true, trit_plus > trit_zero);
+    ASSERT_EQ(false, trit_minus > trit_zero);
 }
 
+/*
+ * Test LEQ operator
+ */
 TEST_F(TestTrit, test_lte)
 {
     iii::Trit trit_minus('-');
@@ -378,14 +455,32 @@ TEST_F(TestTrit, test_lte)
     iii::Trit trit_zero('0');
 
     ASSERT_EQ(true, trit_minus <= trit_plus);
-    ASSERT_EQ(false, trit_minus >= trit_plus);
     ASSERT_EQ(true, trit_minus <= trit_zero);
     ASSERT_EQ(false, trit_zero <= trit_minus);
+    ASSERT_EQ(true, trit_minus <= trit_minus);
+    ASSERT_EQ(true, trit_zero <= trit_zero);
+    ASSERT_EQ(true, trit_plus <= trit_plus);
 }
 
+/*
+ * Test GTE operator
+ */
+TEST_F(TestTrit, test_gte)
+{
+    iii::Trit trit_minus('-');
+    iii::Trit trit_plus('+');
+    iii::Trit trit_zero('0');
 
+    ASSERT_EQ(false, trit_minus >= trit_plus);
+    ASSERT_EQ(true, trit_plus >= trit_minus);
+    ASSERT_EQ(true, trit_minus >= trit_minus);
+    ASSERT_EQ(true, trit_plus >= trit_plus);
+    ASSERT_EQ(true, trit_zero >= trit_zero);
+}
 
-// Integer conversion
+/*
+ * Test conversion to integer
+ */
 TEST_F(TestTrit, test_to_int)
 {
     iii::Trit test_trit;
@@ -397,6 +492,9 @@ TEST_F(TestTrit, test_to_int)
     ASSERT_EQ(-1, test_trit.toInt());
 }
 
+/*
+ * Test assignment from integer type 
+ */
 TEST_F(TestTrit, test_from_int)
 {
     iii::Trit test_trit;

@@ -48,10 +48,11 @@ class Tryte
         // TODO: in-place logic operators?
 
         // comparison operators
-        Trit operator>(const Tryte& t) const;
-        Trit operator>=(const Tryte& t) const;
-        Trit operator<(const Tryte& t) const;
-        Trit operator<=(const Tryte& t) const;
+        Trit comp(const Tryte& t);
+        bool operator<(const Tryte& t);
+        bool operator<=(const Tryte& t) const;
+        bool operator>(const Tryte& t) const;
+        bool operator>=(const Tryte& t) const;
 
         // arithmetic operators
         Tryte operator+(const Tryte& t); 
@@ -62,9 +63,11 @@ class Tryte
         const Trit& operator[](const int i) const;
         Trit& operator[](const int i);
 
+
         // getters 
         Trit getCarry(void) const;
         Trit getTrit(const int trit) const;
+        // operations with no suitable overloads
         bool eqZero(void) const;
 
         // setters 

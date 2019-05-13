@@ -15,6 +15,8 @@
 namespace iii
 {
 
+
+
 // ctors 
 Tryte::Tryte()
 {
@@ -122,27 +124,68 @@ Tryte Tryte::operator~(void) const
     return tr;
 }
 
+
+Trit Tryte::comp(const Tryte& t)
+{
+    for(auto i = 9; i > 0; --i)
+    {
+        if((this->trits[i] != iii::TR_UNK) || (t[i] != iii::TR_UNK))
+        {
+            return this->trits[i].comp(t[i]);
+        }
+    }
+
+    return Trit('0');
+}
+
 /*
- * comparison operators 
+ * Boolean comparison operators
  */
-//Trit Tryte::operator>(const Tryte& t) const
-//{
-//}
-//
-//Trit Tryte::operator>=(const Tryte& t) const
-//{
-//
-//}
-//
-//Trit Tryte::operator<(const Tryte& t) const
-//{
-//
-//}
-//
-//Trit Tryte::operator<=(const Tryte& t) const
-//{
-//
-//}
+bool Tryte::operator<(const Tryte& t) 
+{
+    for(auto i = 9; i > 0; --i)
+    {
+        if((this->trits[i] != iii::TR_UNK) || (t[i] != iii::TR_UNK))
+            return (this->trits[i] < t[i]);
+    }
+
+    return false;
+}
+
+bool Tryte::operator<=(const Tryte& t) const
+{
+    for(auto i = 9; i > 0; --i)
+    {
+        if((this->trits[i] != iii::TR_UNK) || (t[i] != iii::TR_UNK))
+            return (this->trits[i] <= t[i]);
+    }
+
+    return false;
+}
+
+bool Tryte::operator>(const Tryte& t) const
+{
+    for(auto i = 9; i > 0; --i)
+    {
+        if((this->trits[i] != iii::TR_UNK) || (t[i] != iii::TR_UNK))
+            return (this->trits[i] > t[i]);
+    }
+
+    return false;
+}
+
+bool Tryte::operator>=(const Tryte& t) const
+{
+    for(auto i = 9; i > 0; --i)
+    {
+        if((this->trits[i] != iii::TR_UNK) || (t[i] != iii::TR_UNK))
+            return (this->trits[i] >= t[i]);
+    }
+
+    return false;
+}
+
+
 
 
 /*
@@ -220,6 +263,9 @@ bool Tryte::eqZero(void) const
 
     return true;
 }
+
+
+
 
 // setters  
 void Tryte::setTrit(const int trit, const Trit& t)
