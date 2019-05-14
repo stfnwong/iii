@@ -186,8 +186,6 @@ bool Tryte::operator>=(const Tryte& t) const
 }
 
 
-
-
 /*
  * arithmetic operators
  */

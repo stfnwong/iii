@@ -31,8 +31,6 @@ class Tryte
         Tryte(const Tryte& that);
         ~Tryte();
 
-        // conversions to standard types 
-
         // assignment operators
         Tryte& operator=(const int v);
         Tryte& operator=(const Tryte& t);
@@ -44,8 +42,6 @@ class Tryte
         Tryte operator|(const Tryte& t) const;
         Tryte operator^(const Tryte& t) const;
         Tryte operator~(void) const;
-
-        // TODO: in-place logic operators?
 
         // comparison operators
         Trit comp(const Tryte& t);
@@ -63,7 +59,6 @@ class Tryte
         const Trit& operator[](const int i) const;
         Trit& operator[](const int i);
 
-
         // getters 
         Trit getCarry(void) const;
         Trit getTrit(const int trit) const;
@@ -76,6 +71,7 @@ class Tryte
         void allSet(void);
         void invert(void);
         
+        // display
         void printTrits(void);
 
         // type conversion

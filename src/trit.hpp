@@ -35,10 +35,6 @@ struct Trit
         Trit operator^(const Trit& t) const;
         Trit operator!(void) const;
 
-        // in-place operators (TODO)
-        //Trit& operator|=(const Trit& t);
-        //Trit& operator&=(const Trit& t);
-
         // arithmetic operators
         Trit operator+(const Trit& t) const;
         Trit operator+(const int v) const;
@@ -48,8 +44,6 @@ struct Trit
         // equality operators
         bool operator==(const Trit& t) const;
         bool operator!=(const Trit& t) const;
-        //Trit operator==(const Trit& t) const;
-        //Trit operator!=(const Trit& t) const;
 
         // comparison operators 
         bool operator<(const Trit& t) const;

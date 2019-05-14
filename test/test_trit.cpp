@@ -109,6 +109,7 @@ TEST_F(TestTrit, test_and)
     std::cout << std::endl;
 }
 
+
 /*
  * Test OR operator
  */

@@ -129,12 +129,6 @@ Trit Trit::operator&(const Trit& t) const
     return Trit(iii::TR_UNK);
 }
 
-//Trit& Trit::operator&=(const Trit& t)
-//{
-//    this->value = (*this & t).value;
-//    return *this;
-//}
-
 /* 
  * OR (Max)
  * Truth table :
