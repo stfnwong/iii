@@ -15,9 +15,9 @@ namespace iii
 {
 
 // powers of 3               0  1  2  3   4   5    6    7     8 
-static int pow3_lut[]     = {1, 3, 9, 27, 81, 243, 729, 2187, 6561};
+const int pow3_lut[]     = {1, 3, 9, 27, 81, 243, 729, 2187, 6561};
 // powers of 3               8     7     6    5    4   3   2  1  0
-static int inv_pow3_lut[] = {6561, 2187, 729, 243, 81, 27, 9, 3, 1};
+const int inv_pow3_lut[] = {6561, 2187, 729, 243, 81, 27, 9, 3, 1};
 
 
 class Tryte

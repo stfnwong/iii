@@ -44,25 +44,15 @@ TEST_OBJECTS  := $(TEST_SOURCES:$(TEST_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 $(TEST_OBJECTS): $(OBJ_DIR)/%.o : $(TEST_DIR)/%.cpp 
 	$(CXX) $(CXXFLAGS) $(INCS) -c $< -o $@ 
 
-#TOOL_OBJECTS := $(TOOL_SOURCES:$(TOOL_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-#
-#$(TOOL_OBJECTS): $(OBJ_DIR)/%.o : $(TOOL_DIR)/%.cpp
-#	$(CXX) $(CXXFLAGS) $(INCS) -c $< -o $@
 
 # ==== TEST TARGETS ==== #
-TESTS=test_trit test_tryte
+TESTS=test_trit test_tryte test_arithmetic
 $(TESTS): $(TEST_OBJECTS) $(OBJECTS)
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(OBJ_DIR)/$@.o\
 		-o $(TEST_BIN_DIR)/$@ $(LIBS) $(TEST_LIBS)
 
-## ===== TOOL TARGETS ===== # 
-#TOOLS = 
-#
-#$(TOOLS): $(OBJECTS) $(TOOL_OBJECTS)
-#	$(CXX) $(LDFLAGS) $(OBJECTS) $(OBJ_DIR)/$@.o \
-#		$(INCS) -o $(BIN_DIR)/$@ $(LIBS)
 
-# Main targets 
+# ======== ACTUAL TARGETS ======== #
 all : test tools
 
 test : $(TESTS)

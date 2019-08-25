@@ -15,8 +15,6 @@
 namespace iii
 {
 
-
-
 // ctors 
 Tryte::Tryte()
 {
